@@ -1,0 +1,61 @@
+From 045f04fe754703422d36e3d5fb83f4b8c38dd99e Mon Sep 17 00:00:00 2001
+From: Rock Qu <yunq@xilinx.com>
+Date: Tue, 7 Jan 2020 11:21:21 -0800
+Subject: [PATCH] fix for pynq
+
+---
+ build/build.sh                           | 2 +-
+ src/CMakeLists.txt                       | 8 ++++----
+ src/runtime_src/core/edge/CMakeLists.txt | 6 +++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/build/build.sh b/build/build.sh
+index 66b55a3..dbe043f 100755
+--- a/build/build.sh
++++ b/build/build.sh
+@@ -136,7 +136,7 @@ if [[ $dbg == 1 ]]; then
+     time $CMAKE -DRDI_CCACHE=$ccache -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ../../src
+   fi
+   echo "make -j $jcore $verbose DESTDIR=$PWD install"
+-  time make -j $jcore $verbose DESTDIR=$PWD install
++  time make -j $jcore $verbose DESTDIR=/ install
+   time ctest --output-on-failure
+   cd $BUILDDIR
+ fi
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 8221cbd..3ea2527 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -16,10 +16,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ message("-- Host system processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+ message("-- Target system processor is ${CMAKE_SYSTEM_PROCESSOR}")
+ 
+-set(XRT_NATIVE_BUILD "yes")
+-if (NOT ${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR})
+-  set(XRT_NATIVE_BUILD "no")
+-endif()
++set(XRT_NATIVE_BUILD "no")
++#if (NOT ${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR})
++#  set(XRT_NATIVE_BUILD "no")
++#endif()
+ 
+ if (NOT CMAKE_BUILD_TYPE)
+   set (CMAKE_BUILD_TYPE RelWithDebInfo)
+diff --git a/src/runtime_src/core/edge/CMakeLists.txt b/src/runtime_src/core/edge/CMakeLists.txt
+index ced4141..e49b292 100644
+--- a/src/runtime_src/core/edge/CMakeLists.txt
++++ b/src/runtime_src/core/edge/CMakeLists.txt
+@@ -1,7 +1,7 @@
+ add_subdirectory(include)
+ add_subdirectory(user)
+-add_subdirectory(common_em)
+-add_subdirectory(hw_em)
+-add_subdirectory(sw_em)
++#add_subdirectory(common_em)
++#add_subdirectory(hw_em)
++#add_subdirectory(sw_em)
+ add_subdirectory(skd)
+ add_subdirectory(tools)
+-- 
+1.9.5
+

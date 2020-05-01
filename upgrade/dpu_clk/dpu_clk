@@ -1,0 +1,42 @@
+#!/usr/bin/python3
+#
+# Copyright 2019 Xilinx Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+import sys
+import os
+
+pll_clk = 1500000000
+
+pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 32").read(), 16)
+pl0_div0 = (pl0_ref_ctrl >> 8) & 0x3f
+
+ori_clk = int(os.popen("cat /sys/kernel/debug/clk/pl0_ref/clk_rate").read())
+
+if ((sys.argv.__len__() == 2) and sys.argv[1].isdecimal()):
+    perf_rate = int(sys.argv[1])
+    if (perf_rate > 0 and perf_rate <= 100):
+        target_clk = ori_clk * int(sys.argv[1]) / 100
+        #print("Origin Clk %d" % ori_clk)
+        target_div0 = int(pll_clk / target_clk)
+        target_reg = pl0_ref_ctrl & 0xffffc0ff | (target_div0 << 8)
+        #print("Target PL0_CLK %d" % target_clk)
+        os.system("devmem2 0xff5e00c0 32 " + str(hex(target_reg)))
+else:
+    pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 32").read(), 16)
+    pl0_div0 = (pl0_ref_ctrl >> 8) & 0x3f
+    act_clk = pll_clk / pl0_div0
+    print("Real PL0_CLK %d" % act_clk)
+    print("DPU Performance %.1f%%" % (float(act_clk) / ori_clk * 100))
