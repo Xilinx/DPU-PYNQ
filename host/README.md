@@ -57,7 +57,7 @@ there as well.
 **Note**: if you have changed the DPU configurations in your hardware design, 
 you must prepare your new `dpu.hwh`.
 
-### 4. (optional) Machine
+### 4. (optional) Docker
 
 If you want to run the jupyter notebook `train_mnist_model.ipynb` on the host
 machine, you will need to make sure you have an AVX2 and FMA compatible 
@@ -71,6 +71,14 @@ grep fma /proc/cpuinfo
 Both commands should return a list of available supported instruction sets.
 If one of the 2 commands returns nothing, your machine will have difficulties
 importing `tensorflow` package.
+
+Also, on the docker image, you need to do the following before running any Jupyter
+notebook.
+
+```shell
+conda activate vitis-ai-tensorflow
+yes | pip install matplotlib keras==2.2.5
+```
 
 ## Build DPU Models from Vitis AI Model Zoo
 
@@ -155,7 +163,8 @@ Instead of using the deployable models from the Vitis AI model zoo, advanced
 users may even train their own machine learning models. We will show
 one example in `train_mnist_model.ipynb`. 
 
-Once you are in the docker environment, you can do the following.
+Once you are in the docker environment, if you have not done the following, 
+make sure you do it before running the notebook:
 
 ```shell
 conda activate vitis-ai-tensorflow
