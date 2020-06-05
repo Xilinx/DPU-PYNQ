@@ -68,7 +68,7 @@ def get_kernel_name_from_elf(model):
         The name of the ML model binary. Can be absolute or relative path.
 
     """
-    cmd = 'readelf {} -s | grep ' \
+    cmd = 'readelf {} -s --wide | grep ' \
         '"1: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS"'.format(model)
     line = subprocess.check_output(cmd, shell=True).decode()
     kernel_0 = line.split()[-1].lstrip("dpu_").rstrip(".s")
