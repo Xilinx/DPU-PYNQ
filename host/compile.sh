@@ -18,7 +18,6 @@ fi
 
 VAI_VERSION=1.1
 MODEL_ZIP=$(echo ${MODEL_NAME} | sed 's/_[1-9\.]\+G_/_/g').zip
-MODEL_UNZIP=$(echo ${MODEL_NAME} | sed "s/_${VAI_VERSION}//g")
 MODEL_UNZIP=$(echo ${MODEL_NAME} | sed "s/\(.*\)_${VAI_VERSION}\(.*\)/\1\2/")
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
 FRAMEWORK=$(echo $MODEL_NAME | cut -d'_' -f1)
