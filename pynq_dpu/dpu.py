@@ -118,6 +118,8 @@ class DpuOverlay(pynq.Overlay):
         (1) the `overlays` folder inside this module; (2) an absolute path;
         (3) the relative path of the current working directory.
 
+        By default, this class will set the runtime to be `dnndk`.
+
         """
         if os.path.isfile(bitfile_name):
             abs_bitfile_name = bitfile_name
@@ -132,6 +134,7 @@ class DpuOverlay(pynq.Overlay):
                          device=device)
         self.overlay_dirname = os.path.dirname(self.bitfile_name)
         self.overlay_basename = os.path.basename(self.bitfile_name)
+        self.runtime = 'dnndk'
         self.runner = None
 
     def download(self):
@@ -148,6 +151,19 @@ class DpuOverlay(pynq.Overlay):
 
         set_data_width(0)
         self.copy_xclbin()
+
+    def set_runtime(self, runtime):
+        """Set runtime for the DPU.
+
+        Parameters
+        ----------
+        runtime: str
+            Can be either `dnndk` or `vart`.
+
+        """
+        if runtime not in ['dnndk', 'vart']:
+            raise ValueError('Runtime can only be dnndk or vart.')
+        self.runtime = runtime
 
     def copy_xclbin(self):
         """Copy the xclbin file to a specific location.
@@ -213,19 +229,22 @@ class DpuOverlay(pynq.Overlay):
         if not model.endswith(".elf"):
             raise RuntimeError("Currently only elf files can be loaded.")
         else:
-            kernel_name = get_kernel_name_for_dnndk(abs_model)
-            model_so = "libdpumodel{}.so".format(kernel_name)
-            _ = subprocess.check_output(
-                ["gcc", "-fPIC", "-shared", abs_model, "-o",
-                 os.path.join(XCL_DST_PATH, model_so)])
-
-            model_name, kernel_name = get_kernel_name_for_vart(abs_model)
-            runner_folder = os.path.dirname(os.path.abspath(abs_model))
-            meta_json = os.path.join(runner_folder, 'meta.json')
-            with open(meta_json, 'w') as f:
-                f.write('{\n')
-                f.write('"lib": "libvart-dpu-runner.so",\n')
-                f.write('"filename": "{}",\n'.format(model_name))
-                f.write('"kernel": [ "{}" ]\n'.format(kernel_name))
-                f.write('}')
-            self.runner = runner.Runner(runner_folder)[0]
+            if self.runtime == 'dnndk':
+                kernel_name = get_kernel_name_for_dnndk(abs_model)
+                model_so = "libdpumodel{}.so".format(kernel_name)
+                _ = subprocess.check_output(
+                    ["gcc", "-fPIC", "-shared", abs_model, "-o",
+                     os.path.join(XCL_DST_PATH, model_so)])
+            elif self.runtime == 'vart':
+                model_name, kernel_name = get_kernel_name_for_vart(abs_model)
+                runner_folder = os.path.dirname(os.path.abspath(abs_model))
+                meta_json = os.path.join(runner_folder, 'meta.json')
+                with open(meta_json, 'w') as f:
+                    f.write('{\n')
+                    f.write('"lib": "libvart-dpu-runner.so",\n')
+                    f.write('"filename": "{}",\n'.format(model_name))
+                    f.write('"kernel": [ "{}" ]\n'.format(kernel_name))
+                    f.write('}')
+                self.runner = runner.Runner(runner_folder)[0]
+            else:
+                raise ValueError('Runtime can only be dnndk or vart.')
