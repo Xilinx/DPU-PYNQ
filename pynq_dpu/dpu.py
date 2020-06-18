@@ -17,6 +17,7 @@ import os
 import subprocess
 import pynq
 from pynq import Register
+import runner
 
 
 __author__ = "Yun Rock Qu"
@@ -56,8 +57,8 @@ def set_data_width(width_option):
     Register(0xFF419000)[9:8] = width_option
 
 
-def get_kernel_name_from_elf(model):
-    """Parse the kernel name out of the given elf file.
+def get_kernel_name_for_dnndk(model):
+    """Parse the kernel name out of the given elf file for DNNDK runtime.
 
     This method will take elf file as input, read its information, and
     return the model name.
@@ -69,10 +70,35 @@ def get_kernel_name_from_elf(model):
 
     """
     cmd = 'readelf {} -s --wide | grep ' \
-        '"1: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS"'.format(model)
+        '"0000000000000000     0 FILE    LOCAL  DEFAULT  ABS  "'.format(model)
     line = subprocess.check_output(cmd, shell=True).decode()
     kernel_0 = line.split()[-1].lstrip("dpu_").rstrip(".s")
     return kernel_0[:-len('_0')] if kernel_0.endswith('_0') else kernel_0
+
+
+def get_kernel_name_for_vart(model):
+    """Parse the kernel name out of the given elf file for VART.
+
+    This method will leverage the command `dpu_model_inspect` to
+    return the model name.
+
+    Parameters
+    ----------
+    model : str
+        The name of the ML model binary. Can be absolute or relative path.
+
+    Returns
+    -------
+    (str, str)
+        Model name and kernel name of the given elf file.
+
+    """
+    cmd = "dpu_model_inspect {} | grep 'model_name'".format(model)
+    line0 = subprocess.check_output(cmd, shell=True).decode()
+    cmd = "dpu_model_inspect {} | grep 'kernel\\[0\\]'".format(model)
+    line1 = subprocess.check_output(cmd, shell=True).decode()
+    return line0.split('=')[-1].lstrip().rstrip(),\
+        line1.split('=')[-1].lstrip().rstrip()
 
 
 class DpuOverlay(pynq.Overlay):
@@ -92,6 +118,8 @@ class DpuOverlay(pynq.Overlay):
         (1) the `overlays` folder inside this module; (2) an absolute path;
         (3) the relative path of the current working directory.
 
+        By default, this class will set the runtime to be `dnndk`.
+
         """
         if os.path.isfile(bitfile_name):
             abs_bitfile_name = bitfile_name
@@ -106,6 +134,8 @@ class DpuOverlay(pynq.Overlay):
                          device=device)
         self.overlay_dirname = os.path.dirname(self.bitfile_name)
         self.overlay_basename = os.path.basename(self.bitfile_name)
+        self.runtime = 'dnndk'
+        self.runner = None
 
     def download(self):
         """Download the overlay.
@@ -121,6 +151,19 @@ class DpuOverlay(pynq.Overlay):
 
         set_data_width(0)
         self.copy_xclbin()
+
+    def set_runtime(self, runtime):
+        """Set runtime for the DPU.
+
+        Parameters
+        ----------
+        runtime: str
+            Can be either `dnndk` or `vart`.
+
+        """
+        if runtime not in ['dnndk', 'vart']:
+            raise ValueError('Runtime can only be dnndk or vart.')
+        self.runtime = runtime
 
     def copy_xclbin(self):
         """Copy the xclbin file to a specific location.
@@ -147,9 +190,9 @@ class DpuOverlay(pynq.Overlay):
                                      abs_xclbin, XCL_DST_PATH])
 
     def load_model(self, model):
-        """Load DPU models under a specific location.
+        """Load DPU models for both DNNDK runtime and VART.
 
-        This method will compile the ML model `*.elf` binary file,
+        For DNNDK, this method will compile the ML model `*.elf` binary file,
         compile it into `*.so` file located in the destination directory
         on the target. This will make sure DNNDK libraries can work
         without problems.
@@ -162,6 +205,9 @@ class DpuOverlay(pynq.Overlay):
         Currently only `*.elf` files are supported as models. The reason is
         that `*.so` usually have to be recompiled targeting a specific
         rootfs.
+
+        For VART, this method will automatically generate the `meta.json` file
+        in the same folder as the model file.
 
         Parameters
         ----------
@@ -183,8 +229,22 @@ class DpuOverlay(pynq.Overlay):
         if not model.endswith(".elf"):
             raise RuntimeError("Currently only elf files can be loaded.")
         else:
-            kernel_name = get_kernel_name_from_elf(abs_model)
-            model_so = "libdpumodel{}.so".format(kernel_name)
-            _ = subprocess.check_output(
-                ["gcc", "-fPIC", "-shared", abs_model, "-o",
-                 os.path.join(XCL_DST_PATH, model_so)])
+            if self.runtime == 'dnndk':
+                kernel_name = get_kernel_name_for_dnndk(abs_model)
+                model_so = "libdpumodel{}.so".format(kernel_name)
+                _ = subprocess.check_output(
+                    ["gcc", "-fPIC", "-shared", abs_model, "-o",
+                     os.path.join(XCL_DST_PATH, model_so)])
+            elif self.runtime == 'vart':
+                model_name, kernel_name = get_kernel_name_for_vart(abs_model)
+                runner_folder = os.path.dirname(os.path.abspath(abs_model))
+                meta_json = os.path.join(runner_folder, 'meta.json')
+                with open(meta_json, 'w') as f:
+                    f.write('{\n')
+                    f.write('"lib": "libvart-dpu-runner.so",\n')
+                    f.write('"filename": "{}",\n'.format(model_name))
+                    f.write('"kernel": [ "{}" ]\n'.format(kernel_name))
+                    f.write('}')
+                self.runner = runner.Runner(runner_folder)[0]
+            else:
+                raise ValueError('Runtime can only be dnndk or vart.')

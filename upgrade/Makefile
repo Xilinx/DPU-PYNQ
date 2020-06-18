@@ -1,4 +1,4 @@
-PACKAGES = pynq xrt ubuntu_pkg opencv protobuf json_c dpu_clk
+PACKAGES = pynq xrt ubuntu_pkg opencv protobuf json_c dpu_clk glog
 
 .PHONY: all $(PACKAGES)
 all: check_env $(PACKAGES) finish
@@ -20,7 +20,7 @@ $(PACKAGES): check_env
 	fi
 
 ubuntu_pkg : pynq xrt
-opencv protobuf json_c dpu_clk: pynq xrt ubuntu_pkg
+opencv protobuf json_c dpu_clk glog: pynq xrt ubuntu_pkg
 finish: $(PACKAGES)
 
 clean:

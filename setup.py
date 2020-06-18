@@ -150,6 +150,17 @@ def install_dnndk_pkg(pkg_path):
               'bash install.sh'.format(pkg_path))
 
 
+# install dnndk package
+def install_vart_pkg(pkg_path):
+    os.system('cd {} && '
+              'wget -O vitis-ai-runtime-1.1.pynq.tar.gz '
+              '"https://www.xilinx.com/bin/public/openDownload?filename='
+              'vitis-ai-runtime-1.1.pynq.tar.gz" && '
+              'tar -xvf vitis-ai-runtime-1.1.pynq.tar.gz && '
+              'apt-get install ./*.deb && '
+              'rm -rf *.tar.gz *.deb'.format(pkg_path))
+
+
 # resolve overlay files by moving the cached copy
 def resolve_overlay_d(path):
     subfolders = [os.path.abspath(f.path) for f in os.scandir(path)
@@ -172,8 +183,9 @@ class BuildExtension(build_ext):
 
     """
     def run(self):
-        dnndk_pkg_path = os.path.join(module_name, get_platform())
-        install_dnndk_pkg(dnndk_pkg_path)
+        pkg_path = os.path.join(module_name, get_platform())
+        install_dnndk_pkg(pkg_path)
+        install_vart_pkg(pkg_path)
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
         resolve_overlay_d(overlay_path)

@@ -36,11 +36,12 @@ By default, the `Makefile` will install / update the following packages:
 
 * `pynq`: Install `pynq` 2.5.1 from source distribution.
 * `xrt`: Xilinx Run Time (XRT) will be upgraded to tag `2019.2_RC2`.
-* `ubuntu_pkg`: Install `devmem2` and `at-spi2-core` from Ubuntu repository; remove the old `opencv` package.
+* `ubuntu_pkg`: Install a couple of packages from Ubuntu repository; remove the old `opencv` package.
 * `opencv`: Install `opencv` 3.4.3.
 * `protobuf`: Install `protobuf` 3.6.1.
 * `jsonc`: Install `json-c` 0.13.1.
 * `dpu_clk`: Install a small Python script to control DPU clocks.
+* `glog`: Install `glog` 0.4.0.
 
 ## Notes
 
