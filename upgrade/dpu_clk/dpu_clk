@@ -20,7 +20,7 @@ import os
 
 pll_clk = 1500000000
 
-pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 32").read(), 16)
+pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 w").read().split()[-1], 16)
 pl0_div0 = (pl0_ref_ctrl >> 8) & 0x3f
 
 ori_clk = int(os.popen("cat /sys/kernel/debug/clk/pl0_ref/clk_rate").read())
@@ -33,9 +33,9 @@ if ((sys.argv.__len__() == 2) and sys.argv[1].isdecimal()):
         target_div0 = int(pll_clk / target_clk)
         target_reg = pl0_ref_ctrl & 0xffffc0ff | (target_div0 << 8)
         #print("Target PL0_CLK %d" % target_clk)
-        os.system("devmem2 0xff5e00c0 32 " + str(hex(target_reg)))
+        os.system("devmem2 0xff5e00c0 w " + str(hex(target_reg)))
 else:
-    pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 32").read(), 16)
+    pl0_ref_ctrl = int(os.popen("devmem2 0xff5e00c0 w").read().split()[-1], 16)
     pl0_div0 = (pl0_ref_ctrl >> 8) & 0x3f
     act_clk = pll_clk / pl0_div0
     print("Real PL0_CLK %d" % act_clk)
