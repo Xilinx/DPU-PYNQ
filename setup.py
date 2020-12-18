@@ -202,7 +202,7 @@ class BuildExtension(build_ext):
         install_vart_pkg(pkg_path, get_architecture())
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
-        #resolve_overlay_d(overlay_path)
+        resolve_overlay_d(overlay_path)
 
 
 pkg_version = find_version('{}/__init__.py'.format(module_name))
