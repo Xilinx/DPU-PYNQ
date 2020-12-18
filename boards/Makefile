@@ -10,8 +10,8 @@ VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU104)
-VITIS_PLATFORM := $(shell pwd)/$(BOARD)/zcu104_dpu/zcu104_dpu.xpfm
-DOWNLOAD := 1
+VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
+DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU111)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
