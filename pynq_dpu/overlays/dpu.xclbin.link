@@ -1,0 +1,14 @@
+{
+	"Ultra96": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.ultra96.1.2.0.xclbin",
+        "md5sum": "f81805ee30af8802275860d782059a9c"
+    },
+	"ZCU104": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.zcu104.1.2.0.xclbin",
+        "md5sum": "722ab42f152ce6a62946b00fe67c6555"
+    },
+	"ZCU111": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.zcu111.1.2.0.xclbin",
+        "md5sum": "49755f083046b8f643b654760ce17cac"
+    }
+}
