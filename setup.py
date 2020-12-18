@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-__author__ = "Yun Rock Qu"
+__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2020, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
@@ -38,15 +38,15 @@ module_name = "pynq_dpu"
 git_submodule_vai = "vitis-ai-git"
 data_files = []
 dnndk_applications = {'resnet50': "dpu_resnet50_0.elf",
-                      'inception_v1': "dpu_inception_v1_0.elf",
-                      'tf_yolov3_voc_py': "dpu_tf_yolov3.elf"}
+                      'inception_v1': "dpu_inceptionv1_0.elf",
+                      'tf_yolov3_voc_py': "dpu_tf_yolov3_0.elf"}
 
 
 # parse version number
 def find_version(file_path):
     with open(file_path, 'r') as fp:
         version_file = fp.read()
-        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",  
                                   version_file, re.M)
     if version_match:
         return version_match.group(1)
@@ -130,6 +130,17 @@ def get_platform():
     else:
         raise OSError("Platform is not supported.")
 
+# get current architecture: aarch64 or armv7l
+def get_architecture():
+    cpu = platform.processor()
+    if cpu in ['aarch64']:
+        return "aarch64"
+    elif cpu in ['armv7l']:
+        return "armv7l"
+    elif cpu in ['x86_64']:
+        raise OSError("Platform is not supported.")
+    else:
+        raise OSError("Platform is not supported.")
 
 # get current board
 def get_board():
@@ -142,23 +153,26 @@ def get_board():
 # install dnndk package
 def install_dnndk_pkg(pkg_path):
     os.system('cd {} && '
-              'wget -O vitis-ai_v1.1_dnndk.tar.gz '
+              'wget -O vitis-ai_v1.2_dnndk.pynq.tar.gz '
               '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai_v1.1_dnndk.tar.gz" && '
-              'tar -xvf vitis-ai_v1.1_dnndk.tar.gz && '
-              'cd vitis-ai_v1.1_dnndk && '
+              'vitis-ai_v1.2_dnndk.pynq.tar.gz" && '
+              'tar -xvf vitis-ai_v1.2_dnndk.pynq.tar.gz && '
+              'cd vitis-ai_v1.2_dnndk && '
               'bash install.sh'.format(pkg_path))
 
 
-# install dnndk package
-def install_vart_pkg(pkg_path):
-    os.system('cd {} && '
-              'wget -O vitis-ai-runtime-1.1.pynq.tar.gz '
+# install vart package
+
+def install_vart_pkg(pkg_path, edge):
+    os.system('cd {0} && '
+              'wget -O vitis-ai-runtime-1.2.pynq.tar.gz '
               '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai-runtime-1.1.pynq.tar.gz" && '
-              'tar -xvf vitis-ai-runtime-1.1.pynq.tar.gz && '
+              'vitis-ai-runtime-1.2.pynq.tar.gz" && '
+              'tar -xvf vitis-ai-runtime-1.2.pynq.tar.gz && '
+              'cd {1} && '
               'apt-get install ./*.deb && '
-              'rm -rf *.tar.gz *.deb'.format(pkg_path))
+              'cd ../ && '
+              'rm -rf *.tar.gz aarch64 armv7l'.format(pkg_path, edge))
 
 
 # resolve overlay files by moving the cached copy
@@ -185,10 +199,10 @@ class BuildExtension(build_ext):
     def run(self):
         pkg_path = os.path.join(module_name, get_platform())
         install_dnndk_pkg(pkg_path)
-        install_vart_pkg(pkg_path)
+        install_vart_pkg(pkg_path, get_architecture())
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
-        resolve_overlay_d(overlay_path)
+        #resolve_overlay_d(overlay_path)
 
 
 pkg_version = find_version('{}/__init__.py'.format(module_name))
@@ -242,7 +256,7 @@ setup(
     },
     python_requires=">=3.6.0",
     install_requires=[
-        "pynq>=2.5.1",
+        "pynq>=2.6.0",
         "pybind11",
         "CppHeaderParser",
         "mnist"

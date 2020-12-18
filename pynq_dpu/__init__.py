@@ -13,11 +13,11 @@
 #  limitations under the License.
 
 
-from . import pybind11
+#from . import pybind11
 from .dpu import DpuOverlay
 
 
-__author__ = "Yun Rock Qu"
+__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2020, Xilinx"
 __email__ = "pynq_support@xilinx.com"
-__version__ = '1.1.2'
+__version__ = '1.2.0'

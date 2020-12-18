@@ -18,43 +18,18 @@ import subprocess
 import pynq
 from pynq import Register
 import runner
+import xir.graph
+import xir.subgraph
+import pathlib
 
-
-__author__ = "Yun Rock Qu"
+__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2020, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
 
-DATA_WIDTH_REGISTER = 0xFF419000
 MODULE_PATH = os.path.dirname(os.path.realpath(__file__))
 OVERLAY_PATH = os.path.join(MODULE_PATH, 'overlays')
 XCL_DST_PATH = "/usr/lib"
-
-
-def set_data_width(width_option):
-    """Set AXI port data width.
-
-    We need to select the 32/64/128-bit data width for the slave registers.
-    Each of the following values corresponds to a specific data width.
-    The reason why we need this step, is that for some petalinux BSP's
-    (e.g. `xilinx-zcu104-v2019.1-final.bsp`), the AXI lite interface width
-    is not set properly. This step may not be needed for future PYNQ
-    releases.
-
-    00: 32-bit AXI data width (default)
-    01: 64-bit AXI data width
-    10: 128-bit AXI data width (reset value)
-    11: reserved
-
-    Parameters
-    ----------
-    width_option : int
-        The width options ranging from 0 to 3.
-
-    """
-    if width_option not in range(4):
-        raise ValueError("Data width option can only be set to 0, 1, 2, 3.")
-    Register(0xFF419000)[9:8] = width_option
 
 
 def get_kernel_name_for_dnndk(model):
@@ -100,6 +75,13 @@ def get_kernel_name_for_vart(model):
     return line0.split('=')[-1].lstrip().rstrip(),\
         line1.split('=')[-1].lstrip().rstrip()
 
+def get_subgraph(g):
+    sub = []
+    root = g.get_root_subgraph()
+    
+    sub = [s for s in root.children
+            if s.metadata.get_attr_str("device") == "DPU"]
+    return sub
 
 class DpuOverlay(pynq.Overlay):
     """DPU overlay class.
@@ -136,6 +118,7 @@ class DpuOverlay(pynq.Overlay):
         self.overlay_basename = os.path.basename(self.bitfile_name)
         self.runtime = 'dnndk'
         self.runner = None
+        self.graph = None
 
     def download(self):
         """Download the overlay.
@@ -149,7 +132,6 @@ class DpuOverlay(pynq.Overlay):
         self.overlay_dirname = os.path.dirname(self.bitfile_name)
         self.overlay_basename = os.path.basename(self.bitfile_name)
 
-        set_data_width(0)
         self.copy_xclbin()
 
     def set_runtime(self, runtime):
@@ -237,14 +219,11 @@ class DpuOverlay(pynq.Overlay):
                      os.path.join(XCL_DST_PATH, model_so)])
             elif self.runtime == 'vart':
                 model_name, kernel_name = get_kernel_name_for_vart(abs_model)
-                runner_folder = os.path.dirname(os.path.abspath(abs_model))
-                meta_json = os.path.join(runner_folder, 'meta.json')
-                with open(meta_json, 'w') as f:
-                    f.write('{\n')
-                    f.write('"lib": "libvart-dpu-runner.so",\n')
-                    f.write('"filename": "{}",\n'.format(model_name))
-                    f.write('"kernel": [ "{}" ]\n'.format(kernel_name))
-                    f.write('}')
-                self.runner = runner.Runner(runner_folder)[0]
+
+                self.graph = xir.graph.Graph.deserialize(pathlib.Path(abs_model))
+                
+                subgraphs = get_subgraph(self.graph)
+                assert len(subgraphs) == 1 #only one DPU kernel
+                self.runner = runner.Runner(subgraphs[0],"run")
             else:
                 raise ValueError('Runtime can only be dnndk or vart.')
