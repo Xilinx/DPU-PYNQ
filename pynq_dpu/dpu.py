@@ -15,12 +15,13 @@
 
 import os
 import subprocess
+import pathlib
 import pynq
 from pynq import Register
 import runner
 import xir.graph
 import xir.subgraph
-import pathlib
+
 
 __author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2020, Xilinx"
@@ -219,11 +220,9 @@ class DpuOverlay(pynq.Overlay):
                      os.path.join(XCL_DST_PATH, model_so)])
             elif self.runtime == 'vart':
                 model_name, kernel_name = get_kernel_name_for_vart(abs_model)
-
-                self.graph = xir.graph.Graph.deserialize(pathlib.Path(abs_model))
-                
+                self.graph = xir.graph.Graph.deserialize(pathlib.Path(abs_model))   
                 subgraphs = get_subgraph(self.graph)
-                assert len(subgraphs) == 1 #only one DPU kernel
+                assert len(subgraphs) == 1
                 self.runner = runner.Runner(subgraphs[0],"run")
             else:
                 raise ValueError('Runtime can only be dnndk or vart.')

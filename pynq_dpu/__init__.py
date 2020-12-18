@@ -13,7 +13,6 @@
 #  limitations under the License.
 
 
-#from . import pybind11
 from .dpu import DpuOverlay
 
 
