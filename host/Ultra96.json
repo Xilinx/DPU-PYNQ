@@ -1,5 +1,5 @@
 {
-    "target"   : "dpuv2",
-    "dcf"      : "/opt/vitis_ai/compiler/arch/dpuv2/Ultra96/Ultra96.dcf",
+    "target"   : "DPUCZDX8G",
+    "dcf"      : "/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/Ultra96.dcf",
     "cpu_arch" : "arm64"
 }

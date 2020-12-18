@@ -11,13 +11,13 @@ In this repository, we currently support the following boards:
 * Ultra96
 * ZCU104
 * ZCU111
- 
+
 Other Zynq Ultrascale+ boards may be supported with few adjustments.
-This repository supports Vitis AI 1.1.
+This repository supports Vitis AI 1.2.
 
 ## Quick Start
 
-### 1. Upgrading the PYNQ v2.5 image
+### 1. Upgrading the PYNQ v2.6 image
 
 This upgrade step is to make sure users have a DPU-ready image. 
 This step is only required for one time.
@@ -32,7 +32,7 @@ make
 
 The upgrade process may take up to 1 hour, since a few packages will 
 need to be installed. Please be patient. For more information, users can check
-the [PYNQ v2.5 upgrade instructions](./upgrade/README.md)
+the [PYNQ v2.6 upgrade instructions](./upgrade/README.md)
 
 ### 2. Install
 
@@ -59,7 +59,7 @@ in `pynq-dpu` folder.
 
 ## Rebuild DPU Block Design
 
-The DPU IP comes from the [Vitis Ai Github](https://github.com/Xilinx/Vitis-AI/tree/v1.1).
+The DPU IP comes from the [Vitis Ai Github](https://github.com/Xilinx/Vitis-AI/tree/v1.2.1).
 If you want to rebuild the hardware project, you can refer to the
 [instructions for DPU Hardware Design](./boards/README.md).
 
@@ -73,7 +73,7 @@ These are the overlay files that can be used by the `pynq_dpu` package.
 
 ## Rebuild DPU Models
 
-[DPU models for ZCU104](https://github.com/Xilinx/Vitis-AI/tree/v1.1) 
+[DPU models for ZCU104](https://github.com/Xilinx/Vitis-AI/tree/v1.2.1) 
 are available on the Vitis AI GitHub repository.
 
 If you want to rebuild the DPU models, you can refer to the

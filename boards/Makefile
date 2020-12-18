@@ -1,4 +1,3 @@
-# BOARD: Ultra96, ZCU104, ZCU111
 BOARD := Ultra96
 SUPPORTED = Ultra96 ZCU104 ZCU111
 
@@ -6,14 +5,13 @@ SUPPORTED = Ultra96 ZCU104 ZCU111
 # 1. downloaded from Xilinx opendownload for specific boards
 # 2. built from scratch for specific boards
 # 3. provided by users directly, which overrules the previous two
-DOWNLOAD := 0
 ifeq ($(BOARD),Ultra96)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU104)
-VITIS_PLATFORM := $(shell pwd)/$(BOARD)/zcu104_dpu/zcu104_dpu.xpfm
-DOWNLOAD := 1
+VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
+DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU111)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
@@ -54,27 +52,27 @@ ${VITIS_PLATFORM} :
 
 XOCC_OPTS = -t ${TARGET} --platform ${VITIS_PLATFORM} \
 	--save-temps --config ${DIR_PRJ}/prj_config \
-	--xp param:compiler.userPostSysLinkTcl=${DIR_TRD}/prj/Vitis/strip_interconnects.tcl
+	--xp param:compiler.userPostSysLinkTcl=${DIR_TRD}/prj/Vitis/syslink/strip_interconnects.tcl
 
 DPU_HDLSRCS=\
 	${DIR_PRJ}/kernel_xml/dpu/kernel.xml\
 	${DIR_PRJ}/scripts/package_dpu_kernel.tcl\
 	${DIR_PRJ}/scripts/gen_dpu_xo.tcl\
 	${DIR_PRJ}/dpu_conf.vh\
-	${DIR_TRD}/dpu_ip/Vitis/dpu/hdl/dpu_xrt_top.v\
+	${DIR_TRD}/dpu_ip/Vitis/dpu/hdl/DPUCZDX8G.v\
 	${DIR_TRD}/dpu_ip/Vitis/dpu/inc/arch_def.vh\
 	${DIR_TRD}/dpu_ip/Vitis/dpu/xdc/*.xdc\
-	${DIR_TRD}/dpu_ip/dpu_eu_*/hdl/dpu_eu_*_dpu.sv\
-	${DIR_TRD}/dpu_ip/dpu_eu_*/inc/function.vh\
-	${DIR_TRD}/dpu_ip/dpu_eu_*/inc/arch_para.vh
+	${DIR_TRD}/dpu_ip/DPUCZDX8G_*/hdl/DPUCZDX8G_*_dpu.sv\
+	${DIR_TRD}/dpu_ip/DPUCZDX8G_*/inc/function.vh\
+	${DIR_TRD}/dpu_ip/DPUCZDX8G_*/inc/arch_para.vh
 
 SOFTMAX_HDLSRCS=\
 	${DIR_PRJ}/kernel_xml/sfm/kernel.xml\
 	${DIR_PRJ}/scripts/package_sfm_kernel.tcl\
 	${DIR_PRJ}/scripts/gen_sfm_xo.tcl\
 	${DIR_TRD}/dpu_ip/Vitis/sfm/hdl/*.v\
-	${DIR_TRD}/dpu_ip/dpu_eu_*/hdl/dpu_eu_*_sfm.sv\
-	${DIR_TRD}/dpu_ip/dpu_eu_*/xci/sfm/fp_*/*.xci		
+	${DIR_TRD}/dpu_ip/DPUCZDX8G_*/hdl/DPUCZDX8G_*_sfm.sv\
+	${DIR_TRD}/dpu_ip/DPUCZDX8G_*/xci/sfm/fp_*/*.xci		
 
 ${DIR_PRJ}/kernel_xml/dpu/kernel.xml:
 	@mkdir -p $(@D)
@@ -97,7 +95,7 @@ ${DIR_PRJ}/scripts/package_sfm_kernel.tcl: $(DIR_PRJ)/scripts
 	sed -i 's/set path_to_hdl "..\/..\/dpu_ip"/set path_to_hdl "..\/..\/vitis-ai-git\/DPU-TRD\/dpu_ip"/' $@
 
 # Kernel name must match kernel name in kernel.xml
-DPU_KERN_NAME = dpu_xrt_top
+DPU_KERN_NAME = DPUCZDX8G
 SFM_KERN_NAME = sfm_xrt_top
 
 ifeq ($(KERNEL),DPU_SM)

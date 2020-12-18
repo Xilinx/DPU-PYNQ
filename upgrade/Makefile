@@ -1,7 +1,7 @@
-PACKAGES = pynq xrt ubuntu_pkg opencv protobuf json_c dpu_clk glog
+PACKAGES = gcc9
 
 .PHONY: all $(PACKAGES)
-all: check_env $(PACKAGES) finish
+all: check_env $(PACKAGES)
 
 check_env :
 	bash ./check_env.sh
@@ -18,10 +18,6 @@ $(PACKAGES): check_env
 		bash ./install.sh &&\
 		touch .success ;\
 	fi
-
-ubuntu_pkg : pynq xrt
-opencv protobuf json_c dpu_clk glog: pynq xrt ubuntu_pkg
-finish: $(PACKAGES)
 
 clean:
 	rm -rf */.success

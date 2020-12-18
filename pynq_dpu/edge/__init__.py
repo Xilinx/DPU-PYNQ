@@ -12,6 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-__author__ = "Yun Rock Qu"
+__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2020, Xilinx"
 __email__ = "pynq_support@xilinx.com"

@@ -19,7 +19,7 @@ To build the DPU hardware design, we first need to make sure Vitis and XRT
 have been installed and their settings are sourced properly.
 
 ```shell
-source <vitis-install-path>/Vitis/2019.2/settings64.sh
+source <vitis-install-path>/Vitis/2020.1/settings64.sh
 source <xrt-install-path>/xilinx/xrt/setup.sh
 ```
 
@@ -51,7 +51,7 @@ In general, to prepare the Vitis platform, users have the following options:
 * Rebuild Vitis platform from source
 (e.g. [source for Xilinx official platforms](https://github.com/Xilinx/Vitis_Embedded_Platform_Source/tree/master/Xilinx_Official_Platforms))
 * Download an official Vitis platform
-(e.g. [ZCU104 platform](https://www.xilinx.com/bin/public/openDownload?filename=zcu104_dpu_2019.2.zip))
+(e.g. [ZCU104 `platform`](https://www.xilinx.com/bin/public/openDownload?filename=zcu104_dpu_2020.1.zip))
 * Provide users' own customized platforms
 
 No matter how you have prepared your Vitis platform, you can always provide
