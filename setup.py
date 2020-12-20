@@ -130,17 +130,6 @@ def get_platform():
     else:
         raise OSError("Platform is not supported.")
 
-# get current architecture: aarch64 or armv7l
-def get_architecture():
-    cpu = platform.processor()
-    if cpu in ['aarch64']:
-        return "aarch64"
-    elif cpu in ['armv7l']:
-        return "armv7l"
-    elif cpu in ['x86_64']:
-        raise OSError("Platform is not supported.")
-    else:
-        raise OSError("Platform is not supported.")
 
 # get current board
 def get_board():
@@ -199,7 +188,7 @@ class BuildExtension(build_ext):
     def run(self):
         pkg_path = os.path.join(module_name, get_platform())
         install_dnndk_pkg(pkg_path)
-        install_vart_pkg(pkg_path, get_architecture())
+        install_vart_pkg(pkg_path, platform.processor())
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
         resolve_overlay_d(overlay_path)
