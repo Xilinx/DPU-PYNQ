@@ -202,7 +202,7 @@ long_description = (''.join(readme_lines))
 
 if os.path.isdir(git_submodule_vai):
     src_img = os.path.join(git_submodule_vai,
-                           'DPU-TRD/app/Vitis/img')
+                           'DPU-TRD/app/img')
     dst_img = os.path.join(module_name, 'edge/notebooks/img')
     dst_data = os.path.join(module_name, 'edge/notebooks/data')
     src_dnndk_samples = os.path.join(git_submodule_vai,
