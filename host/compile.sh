@@ -39,13 +39,15 @@ if [ $BOARD = "Ultra96" ]; then
 	sudo cp -f Ultra96.json \
 		/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/Ultra96.json
 	dlet -f dpu.hwh
-	sudo cp *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
+	sudo mv *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
 fi
 
 # ZCU111 and ZCU102 use equivalent DPU configurations
 if [ $BOARD = "ZCU111" ]; then
 	BOARD=ZCU102
 fi
+
+cd docker
 
 # Download model if it doesn't already exist in workspace
 if [ ! -f $MODEL_ZIP ]; then
@@ -54,22 +56,25 @@ if [ ! -f $MODEL_ZIP ]; then
 fi
 unzip -o ${MODEL_ZIP}
 
+mkdir -p build
+
 # Compile the model
 if [ $FRAMEWORK = 'cf' ]; then
 	vai_c_caffe \
 		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
 		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
-		--output_dir . \
+		--output_dir build/ \
 		--net_name ${MODEL}
 elif [ $FRAMEWORK = 'tf' ]; then
 	vai_c_tensorflow \
 		--frozen_pb ${MODEL_UNZIP}/quantized/deploy_model.pb \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
-		--output_dir . \
+		--output_dir build/ \
 		--net_name tf_${MODEL}
 else
 	echo "Error: currently only caffe and tensorflow are supported."
 	exit 1
 fi
 
+cd ..
