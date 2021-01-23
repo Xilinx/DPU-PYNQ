@@ -17,8 +17,8 @@ if [ $BOARD = "Ultra96" ] && [ ! -e dpu.hwh ]; then
 fi
 
 VAI_VERSION=1.2
-MODEL_ZIP=$(MODEL_NAME).zip
-MODEL_UNZIP=$(MODEL_NAME)
+MODEL_ZIP=${MODEL_NAME}.zip
+MODEL_UNZIP=$MODEL_NAME
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
 FRAMEWORK=$(echo $MODEL_NAME | cut -d'_' -f1)
 
