@@ -47,7 +47,8 @@ if [ $BOARD = "ZCU111" ]; then
 	BOARD=ZCU102
 fi
 
-cd docker
+mkdir -p generated/build
+cd generated
 
 # Download model if it doesn't already exist in workspace
 if [ ! -f $MODEL_ZIP ]; then
@@ -55,8 +56,6 @@ if [ ! -f $MODEL_ZIP ]; then
 	"https://www.xilinx.com/bin/public/openDownload?filename=${MODEL_ZIP}"
 fi
 unzip -o ${MODEL_ZIP}
-
-mkdir -p build
 
 # Compile the model
 if [ $FRAMEWORK = 'cf' ]; then
