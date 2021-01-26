@@ -17,8 +17,8 @@ if [ $BOARD = "Ultra96" ] && [ ! -e dpu.hwh ]; then
 fi
 
 VAI_VERSION=1.2
-MODEL_ZIP=$(MODEL_NAME).zip
-MODEL_UNZIP=$(MODEL_NAME)
+MODEL_ZIP=$(echo ${MODEL_NAME} ).zip
+MODEL_UNZIP=$(echo ${MODEL_NAME})
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
 FRAMEWORK=$(echo $MODEL_NAME | cut -d'_' -f1)
 
@@ -57,8 +57,8 @@ unzip -o ${MODEL_ZIP}
 # Compile the model
 if [ $FRAMEWORK = 'cf' ]; then
 	vai_c_caffe \
-		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
-		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
+		--prototxt ${MODEL_UNZIP}/quantized/Edge/deploy.prototxt \
+		--caffemodel ${MODEL_UNZIP}/quantized/Edge/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
 		--output_dir . \
 		--net_name ${MODEL}
