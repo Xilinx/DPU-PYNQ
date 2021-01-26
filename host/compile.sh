@@ -17,8 +17,6 @@ if [ $BOARD = "Ultra96" ] && [ ! -e dpu.hwh ]; then
 fi
 
 VAI_VERSION=1.2
-#MODEL_ZIP=$(echo ${MODEL_NAME} | sed 's/_[1-9\.]\+G_/_/g').zip
-#MODEL_UNZIP=$(echo ${MODEL_NAME} | sed "s/\(.*\)_${VAI_VERSION}\(.*\)/\1\2/")
 MODEL_ZIP=$(echo ${MODEL_NAME} ).zip
 MODEL_UNZIP=$(echo ${MODEL_NAME})
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
