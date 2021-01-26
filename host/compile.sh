@@ -17,8 +17,8 @@ if [ $BOARD = "Ultra96" ] && [ ! -e dpu.hwh ]; then
 fi
 
 VAI_VERSION=1.2
-MODEL_ZIP=$(MODEL_NAME).zip
-MODEL_UNZIP=$(MODEL_NAME)
+MODEL_ZIP=${MODEL_NAME}.zip
+MODEL_UNZIP=$MODEL_NAME
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
 FRAMEWORK=$(echo $MODEL_NAME | cut -d'_' -f1)
 
@@ -39,13 +39,16 @@ if [ $BOARD = "Ultra96" ]; then
 	sudo cp -f Ultra96.json \
 		/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/Ultra96.json
 	dlet -f dpu.hwh
-	sudo cp *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
+	sudo mv *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
 fi
 
 # ZCU111 and ZCU102 use equivalent DPU configurations
 if [ $BOARD = "ZCU111" ]; then
 	BOARD=ZCU102
 fi
+
+mkdir -p build
+cd build
 
 # Download model if it doesn't already exist in workspace
 if [ ! -f $MODEL_ZIP ]; then
@@ -73,3 +76,4 @@ else
 	exit 1
 fi
 
+cd ..

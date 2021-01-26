@@ -94,8 +94,15 @@ mkdir -p docker
 cp -rf ../vitis-ai-git/docker_run.sh .
 cp -rf ../vitis-ai-git/docker/PROMPT.txt docker
 chmod u+x docker_run.sh
-./docker_run.sh xilinx/vitis-ai-cpu:latest
+./docker_run.sh xilinx/vitis-ai-cpu:1.1.56
 ```
+
+For the GPU accelerated docker image:
+```
+./docker_run.sh xilinx/vitis-ai:1.2.82
+```
+
+> From version 1.3 .xmodel files are generated instead of .elf
 
 The `docker_run.sh` will download a Vitis AI docker image after users accept
 the license agreements. It may take a long time to download since the image 
@@ -146,7 +153,7 @@ If everything is successful, you should see a screen as shown below.
 
 ![](images/vai_c_output_caffe.png)
 
-A new model file (e.g. `dpu_resnet50_0.elf`) should appear in your working 
+A new model file (e.g. `dpu_resnet50_0.elf`) should appear in your `build/`
 directory; this is the model file that can be deployed on the board.
 
 After you are done with the docker environment, type in:
