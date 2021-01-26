@@ -153,7 +153,7 @@ If everything is successful, you should see a screen as shown below.
 
 ![](images/vai_c_output_caffe.png)
 
-A new model file (e.g. `dpu_resnet50_0.elf`) should appear in your `generated/build/`
+A new model file (e.g. `dpu_resnet50_0.elf`) should appear in your `build/`
 directory; this is the model file that can be deployed on the board.
 
 After you are done with the docker environment, type in:

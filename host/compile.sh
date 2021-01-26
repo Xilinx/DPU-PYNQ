@@ -47,8 +47,8 @@ if [ $BOARD = "ZCU111" ]; then
 	BOARD=ZCU102
 fi
 
-mkdir -p generated/build
-cd generated
+mkdir -p build
+cd build
 
 # Download model if it doesn't already exist in workspace
 if [ ! -f $MODEL_ZIP ]; then
@@ -63,13 +63,13 @@ if [ $FRAMEWORK = 'cf' ]; then
 		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
 		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
-		--output_dir build/ \
+		--output_dir . \
 		--net_name ${MODEL}
 elif [ $FRAMEWORK = 'tf' ]; then
 	vai_c_tensorflow \
 		--frozen_pb ${MODEL_UNZIP}/quantized/deploy_model.pb \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
-		--output_dir build/ \
+		--output_dir . \
 		--net_name tf_${MODEL}
 else
 	echo "Error: currently only caffe and tensorflow are supported."
