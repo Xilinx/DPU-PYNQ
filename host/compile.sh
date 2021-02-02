@@ -39,7 +39,7 @@ if [ $BOARD = "Ultra96" ]; then
 	sudo cp -f Ultra96.json \
 		/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/Ultra96.json
 	dlet -f dpu.hwh
-	sudo mv *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
+	sudo cp *.dcf /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.dcf
 fi
 
 # ZCU111 and ZCU102 use equivalent DPU configurations
@@ -60,8 +60,8 @@ unzip -o ${MODEL_ZIP}
 # Compile the model
 if [ $FRAMEWORK = 'cf' ]; then
 	vai_c_caffe \
-		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
-		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
+		--prototxt ${MODEL_UNZIP}/quantized/Edge/deploy.prototxt \
+		--caffemodel ${MODEL_UNZIP}/quantized/Edge/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/${BOARD}.json \
 		--output_dir . \
 		--net_name ${MODEL}
