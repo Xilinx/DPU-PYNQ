@@ -35,6 +35,7 @@ At the same time, you can proceed to the next few steps.
 By default, the `Makefile` will install / update the following packages:
 
 * `gcc9`: upgrade `gcc` 9 from source distribution.
+* `xrt`: Xilinx Run Time (XRT) will be upgraded to tag `202020.2.8.726`.
 
 ## Notes
 
@@ -42,4 +43,6 @@ The above steps help users with DPU on PYNQ image v2.6 temporarily.
 For future PYNQ releases, these steps will be included in the image itself, 
 so we expect the upgrade scripts to be deprecated in the near future.
 
-Copyright (C) 2020 Xilinx, Inc
+Copyright (C) 2021 Xilinx, Inc
+
+SPDX-License-Identifier: Apache-2.0 License

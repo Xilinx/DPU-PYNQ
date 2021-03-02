@@ -1,4 +1,4 @@
-PACKAGES = gcc9
+PACKAGES = gcc9 xrt
 
 .PHONY: all $(PACKAGES)
 all: check_env $(PACKAGES)

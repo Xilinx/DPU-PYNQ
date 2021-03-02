@@ -5,9 +5,7 @@ on the board. The recompilation is needed if users want to retarget
 a different DPU configuration.
 
 We provide a `compile.sh` script that helps users compile their own deployable
-models from Vitis AI model zoo. For advanced users, a jupyter notebook
- `train_mnist_model.ipynb` is provided to show how to train a ML
-model, quantize it, and compile it using Vitis AI tools.
+models from Vitis AI model zoo. 
 
 ## Prerequisites
 
@@ -23,7 +21,7 @@ git clone --recursive --shallow-submodules https://github.com/Xilinx/DPU-PYNQ.gi
 ### 2. Docker
 
 If you have not installed docker on your host machine, please refer to the
-[Vitis AI getting started page](https://github.com/Xilinx/Vitis-AI/tree/v1.1#Getting-Started)
+[Vitis AI getting started page](https://github.com/Xilinx/Vitis-AI/tree/v1.3#Getting-Started)
 to install docker. 
 
 ### 3. (optional) `dpu.hwh`
@@ -57,28 +55,6 @@ there as well.
 **Note**: if you have changed the DPU configurations in your hardware design, 
 you must prepare your new `dpu.hwh`.
 
-### 4. (optional) Docker
-
-If you want to run the jupyter notebook `train_mnist_model.ipynb` on the host
-machine, you will need to make sure you have an AVX2 and FMA compatible 
-machine. To check that:
-
-```shell
-grep avx2 /proc/cpuinfo
-grep fma /proc/cpuinfo
-```
-
-Both commands should return a list of available supported instruction sets.
-If one of the 2 commands returns nothing, your machine will have difficulties
-importing `tensorflow` package.
-
-Also, on the docker image, you need to do the following before running any Jupyter
-notebook.
-
-```shell
-conda activate vitis-ai-tensorflow
-yes | pip install matplotlib keras==2.2.5
-```
 
 ## Build DPU Models from Vitis AI Model Zoo
 
@@ -94,12 +70,12 @@ mkdir -p docker
 cp -rf ../vitis-ai-git/docker_run.sh .
 cp -rf ../vitis-ai-git/docker/PROMPT.txt docker
 chmod u+x docker_run.sh
-./docker_run.sh xilinx/vitis-ai-cpu:1.1.56
+./docker_run.sh xilinx/vitis-ai-cpu:1.3.411
 ```
 
 For the GPU accelerated docker image:
 ```
-./docker_run.sh xilinx/vitis-ai:1.2.82
+./docker_run.sh xilinx/vitis-ai:1.3.411
 ```
 
 > From version 1.3 .xmodel files are generated instead of .elf
@@ -119,8 +95,11 @@ Once you are in the docker environment, you can run the `compile.sh` script.
 ./compile.sh <Board> <model_name>
 ```
 
-Here `Board` can be `Ultra96`, `ZCU104`, and `ZCU111`. For `model_name`, 
-users can check the [model information](https://github.com/Xilinx/AI-Model-Zoo/tree/1387830ef9b846255245c1dc063e7c86ac71498e#model-information) page as shown below.
+Here `Board` can be `Ultra96`, `ZCU104`, and `ZCU111`. 
+
+For `model_name `  and  `model_performance` , 
+
+users can check the [model performance](https://github.com/Xilinx/Vitis-AI/tree/v1.3/models/AI-Model-Zoo#Model-Performance) page as shown below.
 
 ![](images/model_info.png)
 
@@ -135,7 +114,7 @@ We prepare the `Ultra96.dcf` using the `dpu.hwh` file.
 ### (2) Downloading a model from model zoo
 
 We download a deployable model as a zip file from
-[Vitis AI Model Zoo](https://github.com/Xilinx/AI-Model-Zoo/tree/1387830ef9b846255245c1dc063e7c86ac71498e).
+[Vitis AI Model Zoo](https://github.com/Xilinx/Vitis-AI/tree/v1.3/models/AI-Model-Zoo#Model-Download).
 The contents of the extracted zip file (e.g., `cf_resnet50_imagenet_224_224_7.7G`) 
 will contain multiple versions of the model:
 
@@ -148,7 +127,7 @@ In our case we only need the following files inside the `quantized` directory:
 
 ### (3) Compiling the model
 
-We will compile the model into a `*.elf` file.
+We will compile the model into a `*.xmodel` file.
 If everything is successful, you should see a screen as shown below.
 
 ![](images/vai_c_output_caffe.png)
@@ -164,35 +143,12 @@ exit
 
 to exit.
 
-## Train Your Own DPU Models from Scratch
-
-Instead of using the deployable models from the Vitis AI model zoo, advanced
-users may even train their own machine learning models. We will show
-one example in `train_mnist_model.ipynb`. 
-
-Once you are in the docker environment, if you have not done the following, 
-make sure you do it before running the notebook:
-
-```shell
-conda activate vitis-ai-tensorflow
-yes | pip install matplotlib keras==2.2.5
-```
-
-Then launch jupyter notebook and run the `train_mnist_model.ipynb` 
-step-by-step.
-
-```shell
-jupyter notebook --ip=0.0.0.0 --port=8080
-```
-
-For more information such as training your own model, please refer to the 
-[Vitis AI user guide](https://www.xilinx.com/support/documentation/sw_manuals/vitis_ai/1_1/ug1414-vitis-ai.pdf)
-and [Vitis AI Tutorials](https://github.com/xilinx/vitis-ai-tutorials).
-
 ## References
 
 * [Vitis AI Github](https://github.com/Xilinx/Vitis-AI)
 * [Vitis AI User Guide](https://www.xilinx.com/support/documentation/sw_manuals/vitis_ai/1_1/ug1414-vitis-ai.pdf)
-* [Vitis AI Model Zoo](https://github.com/Xilinx/AI-Model-Zoo/tree/1387830ef9b846255245c1dc063e7c86ac71498e)
+* [Vitis AI Model Zoo](https://github.com/Xilinx/Vitis-AI/tree/v1.3/models/AI-Model-Zoo)
 
-Copyright (C) 2020 Xilinx, Inc
+Copyright (C) 2021 Xilinx, Inc
+
+SPDX-License-Identifier: Apache-2.0 License
