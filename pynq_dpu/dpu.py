@@ -26,7 +26,7 @@ import xir
 
 
 __author__ = "Yun Rock Qu, Jingwei Zhang"
-__copyright__ = "Copyright 2020, Xilinx"
+__copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
 
