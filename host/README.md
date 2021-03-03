@@ -38,28 +38,25 @@ necessary files to recompile the DPU models directly.
 For case 1 and 2, users can leverage existing files on the released docker 
 image. No action is required.
 
-For case 3 (Ultra96 or any other board), the DPU configuration file 
-(`arch.json` or `<Board>.json`) does not exist on the released docker image.
-We need to prepare the `arch.json` so we can compile it into a DPU configuration
-file. 
+For case 3 (Ultra96 or any other board), the proper DPU configuration file 
+(`arch.json`) does not exist on the released docker image.
+The compilation flow assumes the existence of this file and
+copies it over to the docker environment.
+We need to prepare `arch.json` if it does not exist.
 
-One way to get the `dpu.hwh` is to 
-manually create a `json` file with the content:
-(use the DPU configuration of Ultra96 provided by us)
+If you have rebuilt the DPU hardware design by yourself, you can see
+`arch.json` file inside folder 
+`DPU-PYNQ/Boards/<Board>/binary_container_1/link/vivado/vpl/prj/prj.gen/sources_1/bd/dpu/ip/dpu_DPUCZDX8G_1_0/`.
+You can also use the `find -name` command to locate this file.
+
+For example, our `arch.json` file for Ultra96 DPU configuration has content:
 
 ```shell
 {"fingerprint":"0x1000020f2014404"}
 ```
-remember to rename it to `arch.json` if necessary. 
-
-Alternatively, if you have rebuilt the DPU hardware design by yourself, 
-you should see `arch.json` file inside folder 
-`DPU-PYNQ/Boards/<Board>/binary_container_1/link/vivado/`
-	`vpl/prj/prj.gen/sources_1/bd/dpu/ip/dpu_DPUCZDX8G_1_0/`. 
-You can use the `find -name` command to easily locate the target.
 
 **Note**: if you have changed the DPU configurations in your hardware design, 
-you must prepare your new `arch.json` or `<Board>.json`.
+you must prepare your new `arch.json`.
 
 ### 4. (optional) Docker
 
@@ -88,8 +85,8 @@ yes | pip install matplotlib keras==2.2.5
 ## Build DPU Models from Vitis AI Model Zoo
 
 On your host machine, as mentioned in the previous section, if you are
-building models for Ultra96, you need to put the corresponding `dpu.hwh` file
-in folder `DPU-PYNQ/host`.
+building models for Ultra96, you need to put the corresponding `arch.json`
+file in folder `DPU-PYNQ/host`.
 
 We can run the following commands now.
 
@@ -106,8 +103,6 @@ For the GPU accelerated docker image:
 ```
 ./docker_run.sh xilinx/vitis-ai:1.3.411
 ```
-
-> From version 1.3 .xmodel files are generated instead of .elf
 
 The `docker_run.sh` will download a Vitis AI docker image after users accept
 the license agreements. It may take a long time to download since the image 
@@ -137,7 +132,7 @@ following things.
 
 ### (1) Adding Ultra96 support
 
-We prepare the `Ultra96.dcf` using the `dpu.hwh` file.
+We copy over the `arch.json` file.
 
 ### (2) Downloading a model from model zoo
 
@@ -160,7 +155,7 @@ If everything is successful, you should see a screen as shown below.
 
 ![](images/vai_c_output_caffe.png)
 
-A new model file (e.g. `dpu_resnet50_0.elf`) should appear in your `build/`
+A new model file (e.g. `dpu_resnet50_0.xmodel`) should appear in your `build/`
 directory; this is the model file that can be deployed on the board.
 
 After you are done with the docker environment, type in:

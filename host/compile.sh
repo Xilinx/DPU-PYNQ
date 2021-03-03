@@ -11,6 +11,11 @@ else
 	exit 1
 fi
 
+if [ $BOARD = "Ultra96" ] && [ ! -e arch.json ]; then
+	echo "Error: please make sure arch.json is in the working directory."
+	exit 1
+fi
+
 VAI_VERSION=1.3
 MODEL_ZIP=${MODEL_NAME}.zip
 MODEL_UNZIP=$MODEL_NAME
@@ -31,7 +36,7 @@ fi
 # If custom Ultra96 json file is provided, add DPU support
 if [ $BOARD = "Ultra96" ]; then
 	sudo mkdir -p /opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96
-	sudo cp -f Ultra96.json \
+	sudo cp -f arch.json \
 		/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/arch.json
 fi
 
