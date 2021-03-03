@@ -75,17 +75,6 @@ def copy_tree(root_src_dir, root_dst_dir):
             shutil.copy(src_file, dst_dir)
 
 
-# Customized patch
-def patch_ignore_prints(file_path):
-    """Patch Python file to ignore prints.
-
-    Some Python files in examples have too many distracting print outs.
-    This helper function will patch the Python file so we can ignore print outs.
-
-    """
-    os.system('sed -i "s/print/#print/g" {}'.format(file_path))
-
-
 # Enforce platform-dependent distribution
 class CustomDistribution(Distribution):
     def has_ext_modules(self):
@@ -122,9 +111,10 @@ def install_vart_pkg(pkg_path, edge):
               'cd {1} && '
               'apt-get install ./*.deb && '
               'cd ../ && '
-              'rm -rf *.tar.gz aarch64 armv7l && '
-              'sed -i "s/media/usr/g" /etc/vart.conf && '
-              'sed -i "s/sd-mmcblk0p1/lib/g" /etc/vart.conf'.format(pkg_path, edge))
+              'rm -rf *.tar.gz aarch64 armv7l'.format(pkg_path, edge))
+    os.system('rm -rf /etc/vart.conf')
+    with open('/etc/vart.conf') as f:
+        f.write("firmware: /usr/lib/dpu.xclbin")
 
 
 # resolve overlay files by moving the cached copy

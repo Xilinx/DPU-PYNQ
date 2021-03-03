@@ -12,15 +12,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+
 import sys
-sys.path.append('/usr/lib/python3.6/site-packages')
+if '/usr/lib/python3.6/site-packages' not in sys.path:
+    sys.path.append('/usr/lib/python3.6/site-packages')
+
 
 import os
 import subprocess
 from ctypes import *
 from typing import List
 import pynq
-from pynq import Register
 import vart
 import xir
 
@@ -34,21 +36,20 @@ MODULE_PATH = os.path.dirname(os.path.realpath(__file__))
 OVERLAY_PATH = os.path.join(MODULE_PATH, 'overlays')
 XCL_DST_PATH = "/usr/lib"
 
-def get_child_subgraph_dpu(graph: "Graph") -> List["Subgraph"]:
-    assert graph is not None, "'graph' should not be None."
+
+def get_child_subgraph_dpu(graph: "Graph"):
+    assert graph is not None, \
+        "Input Graph object should not be None."
     root_subgraph = graph.get_root_subgraph()
-    assert (
-            root_subgraph is not None
-    ), "Failed to get root subgraph of input Graph object."
+    assert root_subgraph is not None, \
+        "Failed to get root subgraph of input Graph object."
     if root_subgraph.is_leaf:
         return []
     child_subgraphs = root_subgraph.toposort_child_subgraph()
     assert child_subgraphs is not None and len(child_subgraphs) > 0
-    return [
-            cs
+    return [cs
             for cs in child_subgraphs
-            if cs.has_attr("device") and cs.get_attr("device").upper() == "DPU"
-    ]
+            if cs.has_attr("device") and cs.get_attr("device").upper() == "DPU"]
 
 
 class DpuOverlay(pynq.Overlay):
@@ -98,7 +99,6 @@ class DpuOverlay(pynq.Overlay):
         super().download()
         self.overlay_dirname = os.path.dirname(self.bitfile_name)
         self.overlay_basename = os.path.basename(self.bitfile_name)
-
         self.copy_xclbin()
 
     def copy_xclbin(self):
@@ -168,4 +168,4 @@ class DpuOverlay(pynq.Overlay):
             self.graph = xir.Graph.deserialize(abs_model)
             subgraphs = get_child_subgraph_dpu(self.graph)
             assert len(subgraphs) == 1
-            self.runner = vart.Runner.create_runner(subgraphs[0],"run")
+            self.runner = vart.Runner.create_runner(subgraphs[0], "run")
