@@ -1,4 +1,4 @@
-#  Copyright (C) 2020 Xilinx, Inc
+#  Copyright (C) 2021 Xilinx, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -17,6 +17,6 @@ from .dpu import DpuOverlay
 
 
 __author__ = "Yun Rock Qu, Jingwei Zhang"
-__copyright__ = "Copyright 2020, Xilinx"
+__copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
-__version__ = '1.2.0'
+__version__ = '1.3.0'

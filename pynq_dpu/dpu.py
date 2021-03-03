@@ -1,4 +1,4 @@
-#  Copyright (C) 2020 Xilinx, Inc
+#  Copyright (C) 2021 Xilinx, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -12,19 +12,21 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import sys
+sys.path.append('/usr/lib/python3.6/site-packages')
 
 import os
 import subprocess
-import pathlib
+from ctypes import *
+from typing import List
 import pynq
 from pynq import Register
-import runner
-import xir.graph
-import xir.subgraph
+import vart
+import xir
 
 
 __author__ = "Yun Rock Qu, Jingwei Zhang"
-__copyright__ = "Copyright 2020, Xilinx"
+__copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
 
@@ -32,57 +34,22 @@ MODULE_PATH = os.path.dirname(os.path.realpath(__file__))
 OVERLAY_PATH = os.path.join(MODULE_PATH, 'overlays')
 XCL_DST_PATH = "/usr/lib"
 
+def get_child_subgraph_dpu(graph: "Graph") -> List["Subgraph"]:
+    assert graph is not None, "'graph' should not be None."
+    root_subgraph = graph.get_root_subgraph()
+    assert (
+            root_subgraph is not None
+    ), "Failed to get root subgraph of input Graph object."
+    if root_subgraph.is_leaf:
+        return []
+    child_subgraphs = root_subgraph.toposort_child_subgraph()
+    assert child_subgraphs is not None and len(child_subgraphs) > 0
+    return [
+            cs
+            for cs in child_subgraphs
+            if cs.has_attr("device") and cs.get_attr("device").upper() == "DPU"
+    ]
 
-def get_kernel_name_for_dnndk(model):
-    """Parse the kernel name out of the given elf file for DNNDK runtime.
-
-    This method will take elf file as input, read its information, and
-    return the model name.
-
-    Parameters
-    ----------
-    model : str
-        The name of the ML model binary. Can be absolute or relative path.
-
-    """
-    cmd = 'readelf {} -s --wide | grep ' \
-        '"0000000000000000     0 FILE    LOCAL  DEFAULT  ABS  "'.format(model)
-    line = subprocess.check_output(cmd, shell=True).decode()
-    kernel_0 = line.split()[-1].lstrip("dpu_").rstrip(".s")
-    return kernel_0[:-len('_0')] if kernel_0.endswith('_0') else kernel_0
-
-
-def get_kernel_name_for_vart(model):
-    """Parse the kernel name out of the given elf file for VART.
-
-    This method will leverage the command `dpu_model_inspect` to
-    return the model name.
-
-    Parameters
-    ----------
-    model : str
-        The name of the ML model binary. Can be absolute or relative path.
-
-    Returns
-    -------
-    (str, str)
-        Model name and kernel name of the given elf file.
-
-    """
-    cmd = "dpu_model_inspect {} | grep 'model_name'".format(model)
-    line0 = subprocess.check_output(cmd, shell=True).decode()
-    cmd = "dpu_model_inspect {} | grep 'kernel\\[0\\]'".format(model)
-    line1 = subprocess.check_output(cmd, shell=True).decode()
-    return line0.split('=')[-1].lstrip().rstrip(),\
-        line1.split('=')[-1].lstrip().rstrip()
-
-def get_subgraph(g):
-    sub = []
-    root = g.get_root_subgraph()
-    
-    sub = [s for s in root.children
-            if s.metadata.get_attr_str("device") == "DPU"]
-    return sub
 
 class DpuOverlay(pynq.Overlay):
     """DPU overlay class.
@@ -117,7 +84,6 @@ class DpuOverlay(pynq.Overlay):
                          device=device)
         self.overlay_dirname = os.path.dirname(self.bitfile_name)
         self.overlay_basename = os.path.basename(self.bitfile_name)
-        self.runtime = 'dnndk'
         self.runner = None
         self.graph = None
 
@@ -134,19 +100,6 @@ class DpuOverlay(pynq.Overlay):
         self.overlay_basename = os.path.basename(self.bitfile_name)
 
         self.copy_xclbin()
-
-    def set_runtime(self, runtime):
-        """Set runtime for the DPU.
-
-        Parameters
-        ----------
-        runtime: str
-            Can be either `dnndk` or `vart`.
-
-        """
-        if runtime not in ['dnndk', 'vart']:
-            raise ValueError('Runtime can only be dnndk or vart.')
-        self.runtime = runtime
 
     def copy_xclbin(self):
         """Copy the xclbin file to a specific location.
@@ -209,20 +162,10 @@ class DpuOverlay(pynq.Overlay):
             raise ValueError(
                 "Folder {} does not exist.".format(XCL_DST_PATH))
 
-        if not model.endswith(".elf"):
-            raise RuntimeError("Currently only elf files can be loaded.")
+        if not model.endswith(".xmodel"):
+            raise RuntimeError("Currently only xmodel files can be loaded.")
         else:
-            if self.runtime == 'dnndk':
-                kernel_name = get_kernel_name_for_dnndk(abs_model)
-                model_so = "libdpumodel{}.so".format(kernel_name)
-                _ = subprocess.check_output(
-                    ["gcc", "-fPIC", "-shared", abs_model, "-o",
-                     os.path.join(XCL_DST_PATH, model_so)])
-            elif self.runtime == 'vart':
-                model_name, kernel_name = get_kernel_name_for_vart(abs_model)
-                self.graph = xir.graph.Graph.deserialize(pathlib.Path(abs_model))   
-                subgraphs = get_subgraph(self.graph)
-                assert len(subgraphs) == 1
-                self.runner = runner.Runner(subgraphs[0],"run")
-            else:
-                raise ValueError('Runtime can only be dnndk or vart.')
+            self.graph = xir.Graph.deserialize(abs_model)
+            subgraphs = get_child_subgraph_dpu(self.graph)
+            assert len(subgraphs) == 1
+            self.runner = vart.Runner.create_runner(subgraphs[0],"run")

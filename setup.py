@@ -1,4 +1,4 @@
-#  Copyright (C) 2020 Xilinx, Inc
+#  Copyright (C) 2021 Xilinx, Inc
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 __author__ = "Yun Rock Qu, Jingwei Zhang"
-__copyright__ = "Copyright 2020, Xilinx"
+__copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
 
@@ -37,9 +37,6 @@ except RuntimeError:
 module_name = "pynq_dpu"
 git_submodule_vai = "vitis-ai-git"
 data_files = []
-dnndk_applications = {'resnet50': "dpu_resnet50_0.elf",
-                      'inception_v1': "dpu_inceptionv1_0.elf",
-                      'tf_yolov3_voc_py': "dpu_tf_yolov3_0.elf"}
 
 
 # parse version number
@@ -78,36 +75,11 @@ def copy_tree(root_src_dir, root_dst_dir):
             shutil.copy(src_file, dst_dir)
 
 
-# copy DNNDK applications
-def copy_dnndk_samples(src, dst):
-    """Copy DNNDK samples.
-
-    We will only copy the samples that we are interested. More samples can be
-    added to the `application` list. We also need to refrain from storing
-    large ML models in source distribution; hence we need to remove all the
-    models.
-
-    We will just rely on downloading large ML models from Xilinx opendownload
-    when installing the package; at that time we will download specific ones
-    depending on the BOARD environment.
-
-    """
-    copy_tree(os.path.join(src, 'common'),
-              os.path.join(dst, 'common'))
-    os.remove(os.path.join(dst, 'common', 'dputils.py'))
-    for app in dnndk_applications:
-        src_app = os.path.join(src, app)
-        dst_app = os.path.join(dst, app)
-        copy_tree(src_app, dst_app)
-        os.system("cd {} && ".format(dst_app) +
-                  "rm -rf build.sh Makefile model_for_*")
-
-
 # Customized patch
 def patch_ignore_prints(file_path):
     """Patch Python file to ignore prints.
 
-    Some Python files in DNNDK examples have too many distracting print outs.
+    Some Python files in examples have too many distracting print outs.
     This helper function will patch the Python file so we can ignore print outs.
 
     """
@@ -139,29 +111,20 @@ def get_board():
     return board_variable.lower().replace('-', '')
 
 
-# install dnndk package
-def install_dnndk_pkg(pkg_path):
-    os.system('cd {} && '
-              'wget -O vitis-ai_v1.2_dnndk.pynq.tar.gz '
-              '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai_v1.2_dnndk.pynq.tar.gz" && '
-              'tar -xvf vitis-ai_v1.2_dnndk.pynq.tar.gz && '
-              'cd vitis-ai_v1.2_dnndk && '
-              'bash install.sh'.format(pkg_path))
-
-
 # install vart package
 
 def install_vart_pkg(pkg_path, edge):
     os.system('cd {0} && '
-              'wget -O vitis-ai-runtime-1.2.pynq.tar.gz '
+              'wget -O vitis-ai-runtime-1.3.0.pynq.tar.gz '
               '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai-runtime-1.2.pynq.tar.gz" && '
-              'tar -xvf vitis-ai-runtime-1.2.pynq.tar.gz && '
+              'vitis-ai-runtime-1.3.0.pynq.tar.gz" && '
+              'tar -xvf vitis-ai-runtime-1.3.0.pynq.tar.gz && '
               'cd {1} && '
               'apt-get install ./*.deb && '
               'cd ../ && '
-              'rm -rf *.tar.gz aarch64 armv7l'.format(pkg_path, edge))
+              'rm -rf *.tar.gz aarch64 armv7l && '
+              'sed -i "s/media/usr/g" /etc/vart.conf && '
+              'sed -i "s/sd-mmcblk0p1/lib/g" /etc/vart.conf'.format(pkg_path, edge))
 
 
 # resolve overlay files by moving the cached copy
@@ -180,14 +143,13 @@ def resolve_overlay_d(path):
 class BuildExtension(build_ext):
     """A custom build extension for adding user-specific options.
 
-    This will first install DNNDK package targeting the current board.
+    This will first install VART package targeting the current board.
     Also, a couple of link files will be resolved at the end so users
     have the correct overlay files in the `overlays` folder.
 
     """
     def run(self):
         pkg_path = os.path.join(module_name, get_platform())
-        install_dnndk_pkg(pkg_path)
         install_vart_pkg(pkg_path, platform.processor())
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
@@ -198,30 +160,6 @@ pkg_version = find_version('{}/__init__.py'.format(module_name))
 with open("README.md", encoding='utf-8') as fh:
     readme_lines = fh.readlines()[2:7]
 long_description = (''.join(readme_lines))
-
-
-if os.path.isdir(git_submodule_vai):
-    src_img = os.path.join(git_submodule_vai,
-                           'DPU-TRD/app/img')
-    dst_img = os.path.join(module_name, 'edge/notebooks/img')
-    dst_data = os.path.join(module_name, 'edge/notebooks/data')
-    src_dnndk_samples = os.path.join(git_submodule_vai,
-                                     'mpsoc/vitis_ai_dnndk_samples')
-    dst_dnndk_samples = os.path.join(module_name,
-                                     'edge/dnndk')
-
-    copy_tree(src_img, dst_img)
-    shutil.copy2(os.path.join(src_dnndk_samples,
-                              'inception_v1_mt/image/words.txt'),
-                 dst_img)
-    shutil.copy2(os.path.join(src_dnndk_samples,
-                              'tf_yolov3_voc_py/image/voc_classes.txt'),
-                 dst_img)
-    shutil.copy2(os.path.join(src_dnndk_samples, 'common/dputils.py'),
-                 module_name)
-    copy_dnndk_samples(src_dnndk_samples, dst_dnndk_samples)
-    patch_ignore_prints(os.path.join(dst_dnndk_samples,
-                        'tf_yolov3_voc_py/tf_yolov3_voc.py'))
 
 
 extend_package(os.path.join(module_name, 'overlays'))

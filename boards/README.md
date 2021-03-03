@@ -19,7 +19,7 @@ To build the DPU hardware design, we first need to make sure Vitis and XRT
 have been installed and their settings are sourced properly.
 
 ```shell
-source <vitis-install-path>/Vitis/2020.1/settings64.sh
+source <vitis-install-path>/Vitis/2020.2/settings64.sh
 source <xrt-install-path>/xilinx/xrt/setup.sh
 ```
 
@@ -51,7 +51,6 @@ In general, to prepare the Vitis platform, users have the following options:
 * Rebuild Vitis platform from source
 (e.g. [source for Xilinx official platforms](https://github.com/Xilinx/Vitis_Embedded_Platform_Source/tree/master/Xilinx_Official_Platforms))
 * Download an official Vitis platform
-(e.g. [ZCU104 `platform`](https://www.xilinx.com/bin/public/openDownload?filename=zcu104_dpu_2020.1.zip))
 * Provide users' own customized platforms
 
 No matter how you have prepared your Vitis platform, you can always provide
@@ -62,15 +61,20 @@ No matter how you have prepared your Vitis platform, you can always provide
 You can modify the `dpu_conf.vh` file to change the DPU IP settings in the 
 board folder. The adjustable settings of the DPU IP include: 
 
-* DPU model number 
+* `DPU model number` 
+* `URAM_ENABLE`
 * `RAM_USAGE_LOW`
 * `CHANNEL_AUGMENTATION_ENABLE`
 * `DWCV_ENABLE`
 * `POOL_AVG_ENABLE`
 * `RELU_LEAKYRELU_RELU6`
-* `Softmax`
+* `DSP48_USAGE_HIGH`
+* `LOWPOWER_ENABLE`
+* `DEVICE Configuration`
 
 For more information regarding the DPU IP, you can refer to the [official Vitis
 AI DPU guide](https://github.com/Xilinx/Vitis-AI/blob/master/DPU-TRD/prj/Vitis/README.md).
 
-Copyright (C) 2020 Xilinx, Inc
+Copyright (C) 2021 Xilinx, Inc
+
+SPDX-License-Identifier: Apache-2.0 License
