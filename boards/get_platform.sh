@@ -2,7 +2,6 @@
 
 BOARD=$1
 VITIS_PLATFORM=$2
-DOWNLOAD=$3
 PFM_NAME=$(echo $2 | rev | cut -d'/' -f1 | rev | cut -d'.' -f1)
 CURDIR=$(pwd)
 URL="https://www.xilinx.com/bin/public/openDownload?filename=${PFM_NAME}_2020.2.zip"

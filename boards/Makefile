@@ -2,21 +2,16 @@ BOARD := Ultra96
 SUPPORTED = Ultra96 ZCU104 ZCU111
 
 # VITIS_PLATFORM can be:
-# 1. downloaded from Xilinx opendownload for specific boards
-# 2. built from scratch for specific boards
-# 3. provided by users directly, which overrules the previous two
-DOWNLOAD := 0
+# 1. built from scratch for specific boards
+# 2. provided by users directly, which overrules the previous two
 ifeq ($(BOARD),Ultra96)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
-DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU104)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
-DOWNLOAD := 0
 endif
 ifeq ($(BOARD),ZCU111)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
-DOWNLOAD := 0
 endif
 
 GARBAGE_PATTERNS := *.log *.jou sample_link.ini
@@ -44,12 +39,11 @@ all : check_env dpu.xclbin
 check_env :
 	@echo "BOARD: ${BOARD}"
 	@echo "VITIS_PLATFORM: ${VITIS_PLATFORM}"
-	@echo "DOWNLOAD: ${DOWNLOAD}"
 	bash check_env.sh
 
 ${VITIS_PLATFORM} :
 	@echo "Preparing Vitis platform for ${BOARD}..."
-	bash get_platform.sh ${BOARD} ${VITIS_PLATFORM} ${DOWNLOAD}
+	bash get_platform.sh ${BOARD} ${VITIS_PLATFORM}
 
 XOCC_OPTS = -t ${TARGET} --platform ${VITIS_PLATFORM} \
 	--save-temps --config ${DIR_PRJ}/prj_config \

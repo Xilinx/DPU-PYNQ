@@ -24,7 +24,7 @@ If you have not installed docker on your host machine, please refer to the
 [Vitis AI getting started page](https://github.com/Xilinx/Vitis-AI/tree/v1.3#Getting-Started)
 to install docker. 
 
-### 3. (optional) `dpu.hwh`
+### 3. (optional) `arch.json`
 
 There are 3 cases for different boards:
 
@@ -39,21 +39,50 @@ For case 1 and 2, users can leverage existing files on the released docker
 image. No action is required.
 
 For case 3 (Ultra96 or any other board), the DPU configuration file 
-(`Ultra96.dcf` or `<Board>.dcf`) does not exist on the released docker image.
-We need to prepare the `dpu.hwh` so we can compile it into a DPU configuration
+(`arch.json` or `<Board>.json`) does not exist on the released docker image.
+We need to prepare the `arch.json` so we can compile it into a DPU configuration
 file. 
 
 One way to get the `dpu.hwh` is to 
-[download it for Ultra96](https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.ultra96.hwh);
-remember to rename it to `dpu.hwh` if necessary. 
+manually create a `json` file with the content:
+(use the DPU configuration of Ultra96 provided by us)
+
+```shell
+{"fingerprint":"0x1000020f2014404"}
+```
+remember to rename it to `arch.json` if necessary. 
 
 Alternatively, if you have rebuilt the DPU hardware design by yourself, 
-you should see 3 overlay files (`dpu.hwh`, `dpu.bit`, and `dpu.xclbin`) 
-inside folder `DPU-PYNQ/Boards/<Board>`. You can take the `dpu.hwh` 
-there as well.
+you should see `arch.json` file inside folder 
+`DPU-PYNQ/Boards/<Board>/binary_container_1/link/vivado/`
+	`vpl/prj/prj.gen/sources_1/bd/dpu/ip/dpu_DPUCZDX8G_1_0/`. 
+You can use the `find -name` command to easily locate the target.
 
 **Note**: if you have changed the DPU configurations in your hardware design, 
-you must prepare your new `dpu.hwh`.
+you must prepare your new `arch.json` or `<Board>.json`.
+
+### 4. (optional) Docker
+
+If you want to run the jupyter notebook `train_mnist_model.ipynb` on the host
+machine, you will need to make sure you have an AVX2 and FMA compatible 
+machine. To check that:
+
+```shell
+grep avx2 /proc/cpuinfo
+grep fma /proc/cpuinfo
+```
+
+Both commands should return a list of available supported instruction sets.
+If one of the 2 commands returns nothing, your machine will have difficulties
+importing `tensorflow` package.
+
+Also, on the docker image, you need to do the following before running any Jupyter
+notebook.
+
+```shell
+conda activate vitis-ai-tensorflow
+yes | pip install matplotlib keras==2.2.5
+```
 
 
 ## Build DPU Models from Vitis AI Model Zoo
@@ -97,8 +126,7 @@ Once you are in the docker environment, you can run the `compile.sh` script.
 
 Here `Board` can be `Ultra96`, `ZCU104`, and `ZCU111`. 
 
-For `model_name `  and  `model_performance` , 
-
+For `model_name ` and `model_performance`, 
 users can check the [model performance](https://github.com/Xilinx/Vitis-AI/tree/v1.3/models/AI-Model-Zoo#Model-Performance) page as shown below.
 
 ![](images/model_info.png)
@@ -142,6 +170,31 @@ exit
 ```
 
 to exit.
+
+## Train Your Own DPU Models from Scratch
+
+Instead of using the deployable models from the Vitis AI model zoo, advanced
+users may even train their own machine learning models. We will show
+one example in `train_mnist_model.ipynb`. 
+
+Once you are in the docker environment, if you have not done the following, 
+make sure you do it before running the notebook:
+
+```shell
+conda activate vitis-ai-tensorflow
+yes | pip install matplotlib keras==2.2.5
+```
+
+Then launch jupyter notebook and run the `train_mnist_model.ipynb` 
+step-by-step.
+
+```shell
+jupyter notebook --ip=0.0.0.0 --port=8080
+```
+
+For more information such as training your own model, please refer to the 
+[Vitis AI user guide](https://www.xilinx.com/support/documentation/sw_manuals/vitis_ai/1_3/ug1414-vitis-ai.pdf)
+and [Vitis AI Tutorials](https://github.com/xilinx/vitis-ai-tutorials).
 
 ## References
 

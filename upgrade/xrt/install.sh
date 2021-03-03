@@ -7,7 +7,7 @@ set -x
 CURDIR=$(pwd)
 xrt_path=${CURDIR}/xrt-git
 
-git clone https://github.com/seujingwei/XRT.git xrt-git
+git clone https://github.com/xilinx/XRT.git xrt-git
 cd xrt-git
 git checkout -b temp tags/202020.2.8.726
 cp -rf ../0001-Fix-flag-missing.patch .

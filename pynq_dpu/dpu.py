@@ -169,5 +169,3 @@ class DpuOverlay(pynq.Overlay):
             subgraphs = get_child_subgraph_dpu(self.graph)
             assert len(subgraphs) == 1
             self.runner = vart.Runner.create_runner(subgraphs[0],"run")
-    def kill_runner(self):
-        del self.runner
