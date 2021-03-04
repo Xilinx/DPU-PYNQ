@@ -111,10 +111,9 @@ def install_vart_pkg(pkg_path, edge):
               'cd {1} && '
               'apt-get install ./*.deb && '
               'cd ../ && '
-              'rm -rf *.tar.gz aarch64 armv7l'.format(pkg_path, edge))
-    os.system('rm -rf /etc/vart.conf')
-    with open('/etc/vart.conf') as f:
-        f.write("firmware: /usr/lib/dpu.xclbin")
+              'rm -rf *.tar.gz aarch64 armv7l && '
+              'sed -i "s/media\/sd-mmcblk0p1/usr\/lib/g" '
+              '/etc/vart.conf'.format(pkg_path, edge))
 
 
 # resolve overlay files by moving the cached copy
