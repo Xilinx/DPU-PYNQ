@@ -1,10 +1,22 @@
 # DPU Hardware Design
 
-Make sure you have cloned this repository onto your host machine:
+Make sure you have cloned this repository onto your host machine. We will
+leverage the DPU IP officially released in the Vitis AI repository, so we
+need to populate the submodule in DPU-PYNQ repository.
 
-```
+If you have not cloned the repo yet:
+
+```bash
 git clone --recursive --shallow-submodules https://github.com/Xilinx/DPU-PYNQ.git
 cd DPU-PYNQ/boards
+```
+
+If you have already cloned the repository, make sure submodules are loaded:
+
+```bash
+cd DPU-PYNQ
+git submodule init
+git submodule update
 ```
 
 ## Officially Supported Boards

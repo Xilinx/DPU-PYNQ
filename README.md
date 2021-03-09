@@ -25,7 +25,7 @@ This step is only required for one time.
 On your board, run `su` to use super user. Then run the following commands:
 
 ```shell
-git clone --recursive --shallow-submodules https://github.com/Xilinx/DPU-PYNQ.git
+git clone https://github.com/Xilinx/DPU-PYNQ.git
 cd DPU-PYNQ/upgrade
 make
 ```
