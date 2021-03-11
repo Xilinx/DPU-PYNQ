@@ -3,7 +3,7 @@ SUPPORTED = Ultra96 ZCU104 ZCU111
 
 # VITIS_PLATFORM can be:
 # 1. built from scratch for specific boards
-# 2. provided by users directly, which overrules the previous two
+# 2. provided by users directly, which overrules the previous one
 ifeq ($(BOARD),Ultra96)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 endif
