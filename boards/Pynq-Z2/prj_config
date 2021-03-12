@@ -1,0 +1,17 @@
+[clock]
+id=0:DPUCZDX8G_1.aclk
+id=3:DPUCZDX8G_1.ap_clk_2
+
+[connectivity]
+sp=DPUCZDX8G_1.M_AXI_GP0:HP0
+sp=DPUCZDX8G_1.M_AXI_HP0:HP1
+sp=DPUCZDX8G_1.M_AXI_HP2:HP2
+nk=DPUCZDX8G:1
+
+[advanced]
+misc=:solution_name=link
+param=compiler.addOutputTypes=sd_card
+
+[vivado]
+prop=run.impl_1.strategy=Performance_Explore
+param=place.runPartPlacer=0

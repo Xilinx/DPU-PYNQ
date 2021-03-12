@@ -1,5 +1,5 @@
 BOARD := Ultra96
-SUPPORTED = Ultra96 ZCU104 ZCU111
+SUPPORTED = Ultra96 ZCU104 ZCU111 Pynq-Z2
 
 # VITIS_PLATFORM can be:
 # 1. built from scratch for specific boards
@@ -12,6 +12,9 @@ VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 endif
 ifeq ($(BOARD),ZCU111)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
+endif
+ifeq ($(BOARD),Pynq-Z2)
+VITIS_PLATFORM := $(shell pwd)/$(BOARD)/bare/bare.xpfm
 endif
 
 GARBAGE_PATTERNS := *.log *.jou sample_link.ini
