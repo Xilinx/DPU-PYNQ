@@ -10,10 +10,10 @@ if [ ! -d PYNQ-derivative-overlays ]; then
 	cd PYNQ-derivative-overlays
 	git checkout -b temp tags/v2020.2
 fi
-cd ${CURDIR}/PYNQ-derivative-overlays/dpu
+cd ${CURDIR}/PYNQ-derivative-overlays/${PFM_NAME}
 make clean && make BOARD=${BOARD}
 cd ${CURDIR}/PYNQ-derivative-overlays/vitis_platform
-make XSA_PATH=../dpu/dpu.xsa BOARD=${BOARD}
+make XSA_PATH=../${PFM_NAME}/${PFM_NAME}.xsa BOARD=${BOARD}
 cp -rf ${CURDIR}/PYNQ-derivative-overlays/vitis_platform/${BOARD}/platforms/${PFM_NAME} ${CURDIR}/${BOARD}
 cd ${CURDIR}
 
