@@ -7,7 +7,7 @@ if [ "$#" -eq 2 ]; then
 	MODEL_NAME=$2
 else
 	echo "Error: please provide BOARD and MODEL_NAME as arguments."
-	echo "Example: ./compile.sh Ultra96 cf_resnet50_imagenet_224_224_7.7G_1.1"
+	echo "Example: ./compile.sh Ultra96 cf_resnet50_imagenet_224_224_7.7G_1.3"
 	exit 1
 fi
 
@@ -41,8 +41,9 @@ if [ $BOARD = "Ultra96" ]; then
 fi
 
 # ZCU111 and ZCU102 use equivalent DPU configurations
-if [ $BOARD = "ZCU111" ]; then
-	BOARD=ZCU102
+if [ $BOARD = "ZCU111" ] && [ ! -e /opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU111 ]; then
+	sudo cp -r /opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU102 \
+		/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU111 
 fi
 
 mkdir -p ${BOARD}_${FRAMEWORK}_${MODEL}_build
