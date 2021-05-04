@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
 
@@ -104,10 +103,10 @@ def get_board():
 
 def install_vart_pkg(pkg_path, edge):
     os.system('cd {0} && '
-              'wget -O vitis-ai-runtime-1.3.0.pynq.tar.gz '
+              'wget -O vitis-ai-runtime-1.3.2.pynq.tar.gz '
               '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai-runtime-1.3.0.pynq.tar.gz" && '
-              'tar -xvf vitis-ai-runtime-1.3.0.pynq.tar.gz && '
+              'vitis-ai-runtime-1.3.2.pynq.tar.gz" && '
+              'tar -xvf vitis-ai-runtime-1.3.2.pynq.tar.gz && '
               'cd {1} && '
               'apt-get install ./*.deb && '
               'cd ../ && '

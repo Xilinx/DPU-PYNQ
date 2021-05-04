@@ -16,7 +16,6 @@
 from .dpu import DpuOverlay
 
 
-__author__ = "Yun Rock Qu, Jingwei Zhang"
 __copyright__ = "Copyright 2021, Xilinx"
 __email__ = "pynq_support@xilinx.com"
-__version__ = '1.3.0'
+__version__ = '1.3.2'

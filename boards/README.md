@@ -85,7 +85,10 @@ board folder. The adjustable settings of the DPU IP include:
 * `DEVICE Configuration`
 
 For more information regarding the DPU IP, you can refer to the [official Vitis
-AI DPU guide](https://github.com/Xilinx/Vitis-AI/blob/master/DPU-TRD/prj/Vitis/README.md).
+AI DPU guide](https://www.xilinx.com/html_docs/vitis_ai/1_3/fke1606771875742.html).
+
+----
+----
 
 Copyright (C) 2021 Xilinx, Inc
 
