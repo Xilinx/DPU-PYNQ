@@ -43,7 +43,11 @@ check_env :
 
 ${VITIS_PLATFORM} :
 	@echo "Preparing Vitis platform for ${BOARD}..."
-	bash get_platform.sh ${BOARD} ${VITIS_PLATFORM}
+	cd vitis_platform/dpu && make clean && make BOARD=${BOARD}
+	cd vitis_platform && make XSA_PATH=./dpu/dpu.xsa BOARD=${BOARD}
+	cp -rf vitis_platform/${BOARD}/platforms/dpu ${BOARD}
+	@echo "Successfully finished building vitis platform."
+	@echo "Vitis platform stored in $(BOARD)/dpu."
 
 XOCC_OPTS = -t ${TARGET} --platform ${VITIS_PLATFORM} \
 	--save-temps --config ${DIR_PRJ}/prj_config \
