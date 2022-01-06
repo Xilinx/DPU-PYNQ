@@ -78,4 +78,4 @@ If you want to recompile the DPU models or train your own network, you can refer
 
 Copyright (C) 2021 Xilinx, Inc
 
-SPDX-License-Identifier: Apache-2.0 License
+SPDX-License-Identifier: Apache-2.0

@@ -1,6 +1,6 @@
 # Copyright (C) 2021 Xilinx, Inc
 #
-# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-License-Identifier: Apache-2.0
 
 # Since Vitis AI 1.4, vart.so is located in /usr/lib/python3/site-packages
 import sys
