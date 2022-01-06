@@ -7,7 +7,7 @@ if [ "$#" -eq 2 ]; then
 	MODEL_NAME=$2
 else
 	echo "Error: please provide BOARD and MODEL_NAME as arguments."
-	echo "Example: ./compile.sh Ultra96 cf_resnet50_imagenet_224_224_7.7G_1.3"
+	echo "Example: ./compile.sh Ultra96 cf_resnet50_imagenet_224_224_7.7G_1.4"
 	exit 1
 fi
 
@@ -16,7 +16,6 @@ if [ $BOARD = "Ultra96" ] && [ ! -e arch.json ]; then
 	exit 1
 fi
 
-VAI_VERSION=1.3
 MODEL_ZIP=${MODEL_NAME}.zip
 MODEL_UNZIP=$MODEL_NAME
 MODEL=$(echo $MODEL_NAME | cut -d'_' -f2)
@@ -28,8 +27,13 @@ if [ $FRAMEWORK = 'cf' ]; then
 	conda activate vitis-ai-caffe
 elif [ $FRAMEWORK = 'tf' ]; then
 	conda activate vitis-ai-tensorflow
+elif [ $FRAMEWORK = 'tf2' ]; then
+	conda activate vitis-ai-tensorflow2
+elif [ $FRAMEWORK = 'pt' ]; then
+	conda activate vitis-ai-pytorch
 else
-	echo "Error: currently only caffe and tensorflow are supported."
+	echo "Error: please select a supported framework."
+	echo "Currently supported: caffe, tensorflow, tensorflow2 and pytorch"
 	exit 1
 fi
 
@@ -38,12 +42,6 @@ if [ $BOARD = "Ultra96" ]; then
 	sudo mkdir -p /opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96
 	sudo cp -f arch.json \
 		/opt/vitis_ai/compiler/arch/DPUCZDX8G/Ultra96/arch.json
-fi
-
-# ZCU111 and ZCU102 use equivalent DPU configurations
-if [ $BOARD = "ZCU111" ] && [ ! -e /opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU111 ]; then
-	sudo cp -r /opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU102 \
-		/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU111 
 fi
 
 mkdir -p ${BOARD}_${FRAMEWORK}_${MODEL}_build
@@ -59,10 +57,11 @@ cd ${BOARD}_${FRAMEWORK}_${MODEL}_build
 unzip -o ${MODEL_ZIP}
 
 # Compile the model
+# pytorch model naming convention changes, so doing a wildflag
 if [ $FRAMEWORK = 'cf' ]; then
 	vai_c_caffe \
-		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
-		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
+		--prototxt ${MODEL_UNZIP}/fix/deploy.prototxt \
+		--caffemodel ${MODEL_UNZIP}/fix/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/arch.json \
 		--output_dir . \
 		--net_name ${MODEL}
@@ -72,8 +71,20 @@ elif [ $FRAMEWORK = 'tf' ]; then
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/arch.json \
 		--output_dir . \
 		--net_name tf_${MODEL}
+elif [ $FRAMEWORK = 'tf2' ]; then
+	vai_c_tensorflow2 \
+		--model ${MODEL_UNZIP}/quantized/quantized.h5 \
+		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/arch.json \
+		--output_dir . \
+		--net_name tf2_${MODEL}
+elif [ $FRAMEWORK = 'pt' ]; then
+	vai_c_xir \
+		--xmodel ${MODEL_UNZIP}/quantized/*.xmodel \
+		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/arch.json \
+		--output_dir . \
+		--net_name pt_${MODEL}
 else
-	echo "Error: currently only caffe and tensorflow are supported."
+	echo "Error: currently only caffe, tensorflow, tensorflow2 and pytorch are supported."
 	exit 1
 fi
 

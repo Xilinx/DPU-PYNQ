@@ -25,13 +25,19 @@ Currently we support the following boards:
 
 * Ultra96
 * ZCU104
-* ZCU111
+* KV260
+
+The DPU configurations for ZCU104 and KV260 are identical, however the vivado
+designs can differ between boards. Some helpful examples for the KV260 can be
+found on the KV260-Vitis [github repository](https://github.com/Xilinx/kv260-vitis/tree/release-2021.1).
+And for the ZCU104 configurations exist on the Vitis AI repository [Vitis TRD flow](https://github.com/Xilinx/Vitis-AI/tree/v1.4/dsa/DPU-TRD/prj/Vitis)
+The Ultra96 configuration is taken directly from the Avnet Vitis [github repository](https://github.com/Avnet/vitis/tree/2021.1/app/dpu/u96v2_sbc_base).
 
 To build the DPU hardware design, we first need to make sure Vitis and XRT 
 have been installed and their settings are sourced properly.
 
 ```shell
-source <vitis-install-path>/Vitis/2020.2/settings64.sh
+source <vitis-install-path>/Vitis/2021.1/settings64.sh
 source <xrt-install-path>/xilinx/xrt/setup.sh
 ```
 
@@ -85,7 +91,7 @@ board folder. The adjustable settings of the DPU IP include:
 * `DEVICE Configuration`
 
 For more information regarding the DPU IP, you can refer to the [official Vitis
-AI DPU guide](https://www.xilinx.com/html_docs/vitis_ai/1_3/fke1606771875742.html).
+AI DPU guide](https://www.xilinx.com/html_docs/vitis_ai/1_4/fke1606771875742.html).
 
 ----
 ----

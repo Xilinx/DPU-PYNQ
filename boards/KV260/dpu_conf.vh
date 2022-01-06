@@ -32,11 +32,11 @@
 // | for zcu102 : `define URAM_DISABLE                 
 // |------------------------------------------------------|
 
-`define URAM_DISABLE 
+`define URAM_ENABLE 
 
 //config URAM
 `ifdef URAM_ENABLE
-    `define def_UBANK_IMG_N          5
+    `define def_UBANK_IMG_N          5 
     `define def_UBANK_WGT_N          17
     `define def_UBANK_BIAS           1
 `elsif URAM_DISABLE
