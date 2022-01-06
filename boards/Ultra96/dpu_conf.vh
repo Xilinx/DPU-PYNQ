@@ -4,28 +4,31 @@
 /*====== Architecture Options ======*/
 // |------------------------------------------------------|
 // | Support 8 DPU size
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | `define B512               
 // +------------------------------------------------------+
-// | `deifne B800                 
+// | `define B800                 
 // +------------------------------------------------------+
-// | `deifne B1024                 
+// | `define B1024                 
 // +------------------------------------------------------+
-// | `deifne B1152                 
+// | `define B1152                 
 // +------------------------------------------------------+
-// | `deifne B1600                 
+// | `define B1600                 
 // +------------------------------------------------------+
-// | `deifne B2304                 
+// | `define B2304                 
 // +------------------------------------------------------+
-// | `deifne B3136                 
+// | `define B3136                 
 // +------------------------------------------------------+
-// | `deifne B4096                 
+// | `define B4096                 
 // |------------------------------------------------------|
 
-`define B1600 
+//`define B4096 
+`define B2304
 
 // |------------------------------------------------------|
-// |If the FPGA has Uram. You can define URAM_EN parameter               
+// | If the FPGA has Uram. You can define URAM_EN parameter               
+// | if change, Don't need update model
 // +------------------------------------------------------+
 // | for zcu104 : `define URAM_ENABLE               
 // +------------------------------------------------------+
@@ -69,6 +72,7 @@
 
 // |------------------------------------------------------|
 // | RAM Usage Configuration              
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | RAM Usage High : `define RAM_USAGE_HIGH               
 // +------------------------------------------------------+
@@ -79,16 +83,18 @@
 
 // |------------------------------------------------------|
 // | Channel Augmentation Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | Enable  : `define CHANNEL_AUGMENTATION_ENABLE              
 // +------------------------------------------------------+
 // | Disable : `define CHANNEL_AUGMENTATION_DISABLE                
 // |------------------------------------------------------|
 
-`define CHANNEL_AUGMENTATION_DISABLE
+`define CHANNEL_AUGMENTATION_ENABLE
 
 // |------------------------------------------------------|
 // | DepthWiseConv Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | Enable  : `define DWCV_ENABLE              
 // +------------------------------------------------------+
@@ -99,6 +105,7 @@
 
 // |------------------------------------------------------|
 // | Pool Average Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | Enable  : `define POOL_AVG_ENABLE              
 // +------------------------------------------------------+
@@ -118,8 +125,9 @@
 
 `define ELEW_MULT_DISABLE
 
-// |------------------------------------------------------|
+// +------------------------------------------------------+
 // | RELU Type Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | `define RELU_RELU6
 // +------------------------------------------------------+
@@ -129,15 +137,17 @@
 `define RELU_LEAKYRELU_RELU6
 
 // |------------------------------------------------------|
-// | DSP48 Usage Configuration
+// | DSP48 Usage Configuration  
+// | Use dsp replace of lut in conv operate 
+// | if change, Don't need update model
 // +------------------------------------------------------+
 // | `define DSP48_USAGE_HIGH              
 // +------------------------------------------------------+
 // | `define DSP48_USAGE_LOW                
 // |------------------------------------------------------|
 
-`define DSP48_USAGE_HIGH
-
+//`define DSP48_USAGE_HIGH 
+`define DSP48_USAGE_LOW
 
 // |------------------------------------------------------|
 // | Power Configuration
@@ -160,5 +170,8 @@
 // |------------------------------------------------------|
 
 `define MPSOC
+  
+
+
 
  

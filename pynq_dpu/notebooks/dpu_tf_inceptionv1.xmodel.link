@@ -1,0 +1,14 @@
+{
+	"Ultra96": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu_tf_inceptionv1.ultra96.1.4.0.xmodel",
+        "md5sum": "6f7f6fd2781f936381581f35ea9378b7"
+    },
+	"ZCU104": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu_tf_inceptionv1.zcu104.1.4.0.xmodel",
+        "md5sum": "16cf217ffcee0378ebdb8eb08f8077ff"
+    },
+	"KV260": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu_tf_inceptionv1.kv260.1.4.0.xmodel",
+        "md5sum": "4a8413c3e6f9e33e814b895719707508"
+    }
+}

@@ -4,7 +4,7 @@ BOARD := ZCU104
 OVERLAY := $(shell basename $(XSA_PATH) | cut -d "." -f 1)
 
 Zynq7000 := 
-ZynqUltrascale := Ultra96 ZCU104 ZCU111
+ZynqUltrascale := Ultra96 ZCU104 KV260
 ifneq ($(filter $(BOARD),$(Zynq7000)),)
 PROC = ps7_cortexa9
 endif
@@ -34,7 +34,7 @@ help:
 	@echo "XSA_PATH:   path to the xsa file"
 	@echo "            e.g., /home/usr/boards/ZCU104/ultra/ultra.xsa"
 	@echo "BOARD:      name of the board"
-	@echo "            e.g., ZCU104, Ultra96, ZCU111"
+	@echo "            e.g., ZCU104, Ultra96, KV260"
 	@echo
 	@echo "current configuration:"
 	@echo "----------------------"

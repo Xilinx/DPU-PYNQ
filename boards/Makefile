@@ -1,5 +1,5 @@
 BOARD := Ultra96
-SUPPORTED = Ultra96 ZCU104 ZCU111
+SUPPORTED = Ultra96 ZCU104 KV260
 
 # VITIS_PLATFORM can be:
 # 1. built from scratch for specific boards
@@ -10,9 +10,10 @@ endif
 ifeq ($(BOARD),ZCU104)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 endif
-ifeq ($(BOARD),ZCU111)
+ifeq ($(BOARD),KV260)
 VITIS_PLATFORM := $(shell pwd)/$(BOARD)/dpu/dpu.xpfm
 endif
+
 
 GARBAGE_PATTERNS := *.log *.jou sample_link.ini
 GARBAGE_PATTERNS += binary_container_1 packaged_* tmp_*
@@ -26,12 +27,7 @@ RM = rm -f
 RMDIR = rm -rf
 VIVADO := ${VIVADO_ROOT}/bin/vivado
 TARGET := hw
-
-ifeq ($(BOARD),ZCU111)
-KERNEL := DPU_SM
-else
 KERNEL := DPU
-endif
 
 .PHONY: all clean check_env
 all : check_env dpu.xclbin
@@ -57,6 +53,7 @@ DPU_HDLSRCS=\
 	${DIR_PRJ}/kernel_xml/dpu/kernel.xml\
 	${DIR_PRJ}/scripts/package_dpu_kernel.tcl\
 	${DIR_PRJ}/scripts/gen_dpu_xo.tcl\
+	${DIR_PRJ}/scripts/bip_proc.tcl\
 	${DIR_PRJ}/dpu_conf.vh\
 	${DIR_TRD}/dpu_ip/Vitis/dpu/hdl/DPUCZDX8G.v\
 	${DIR_TRD}/dpu_ip/Vitis/dpu/inc/arch_def.vh\
@@ -86,6 +83,8 @@ ${DIR_PRJ}/scripts/gen_dpu_xo.tcl: $(DIR_PRJ)/scripts
 	cp -f ${DIR_TRD}/prj/Vitis/scripts/gen_dpu_xo.tcl $@
 ${DIR_PRJ}/scripts/gen_sfm_xo.tcl: $(DIR_PRJ)/scripts
 	cp -f ${DIR_TRD}/prj/Vitis/scripts/gen_sfm_xo.tcl $@
+${DIR_PRJ}/scripts/bip_proc.tcl : $(DIR_PRJ)/scripts
+	cp -f ${DIR_TRD}/prj/Vitis/scripts/bip_proc.tcl $@
 ${DIR_PRJ}/scripts/package_dpu_kernel.tcl: $(DIR_PRJ)/scripts
 	cp -f ${DIR_TRD}/prj/Vitis/scripts/package_dpu_kernel.tcl $@
 	sed -i 's/set path_to_hdl "..\/..\/dpu_ip"/set path_to_hdl "..\/..\/vitis-ai-git\/dsa\/DPU-TRD\/dpu_ip"/' $@
@@ -136,5 +135,4 @@ clean:
 cleanall: clean
 	$(RMDIR) Ultra96/dpu
 	$(RMDIR) ZCU104/zcu104_dpu
-	$(RMDIR) ZCU111/dpu
 	$(RMDIR) PYNQ-derivative-overlays

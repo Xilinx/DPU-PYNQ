@@ -1,20 +1,6 @@
-#  Copyright (C) 2021 Xilinx, Inc
+# Copyright (C) 2021 Xilinx, Inc
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
-__copyright__ = "Copyright 2021, Xilinx"
-__email__ = "pynq_support@xilinx.com"
-
+# SPDX-License-Identifier: BSD-3-Clause
 
 from setuptools import setup, find_packages, Distribution
 from setuptools.command.build_ext import build_ext
@@ -24,17 +10,11 @@ import platform
 import re
 import warnings
 
-
-# temporary fix to ignore "Device Not Found" error
-try:
-    from pynq.utils import build_py
-except RuntimeError:
-    pass
+from pynq.utils import build_py
 
 
 # global variables
 module_name = "pynq_dpu"
-git_submodule_vai = "vitis-ai-git"
 data_files = []
 
 
@@ -58,61 +38,31 @@ def extend_package(path):
         )
     elif os.path.isfile(path):
         data_files.append(os.path.join("..", path))
-
-
-# merge 2 folder recursively
-def copy_tree(root_src_dir, root_dst_dir):
-    for src_dir, dirs, files in os.walk(root_src_dir):
-        dst_dir = src_dir.replace(root_src_dir, root_dst_dir, 1)
-        if not os.path.exists(dst_dir):
-            os.makedirs(dst_dir)
-        for f in files:
-            src_file = os.path.join(src_dir, f)
-            dst_file = os.path.join(dst_dir, f)
-            if os.path.exists(dst_file):
-                os.remove(dst_file)
-            shutil.copy(src_file, dst_dir)
-
-
+        
 # Enforce platform-dependent distribution
 class CustomDistribution(Distribution):
     def has_ext_modules(self):
         return True
 
-
-# get current platform: edge
-def get_platform():
-    cpu = platform.processor()
-    if cpu in ['armv7l', 'aarch64']:
-        return "edge"
-    elif cpu in ['x86_64']:
-        raise OSError("Platform is not supported.")
-    else:
-        raise OSError("Platform is not supported.")
-
-
 # get current board
 def get_board():
     board_variable = os.getenv('BOARD')
-    if board_variable not in ['Ultra96', 'ZCU104', 'ZCU111']:
+    if board_variable not in ['Ultra96', 'ZCU104', 'KV260']:
         warnings.warn(UserWarning, "Board is not officially supported.")
     return board_variable.lower().replace('-', '')
 
 
 # install vart package
-
-def install_vart_pkg(pkg_path, edge):
-    os.system('cd {0} && '
-              'wget -O vitis-ai-runtime-1.3.2.pynq.tar.gz '
+def install_vart_pkg():
+    os.system('wget -O vitis-ai-runtime-1.4.0.pynq.tar.gz '
               '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai-runtime-1.3.2.pynq.tar.gz" && '
-              'tar -xvf vitis-ai-runtime-1.3.2.pynq.tar.gz && '
-              'cd {1} && '
-              'apt-get install ./*.deb && '
+              'vitis-ai-runtime-1.4.0.pynq.tar.gz" && '
+              'tar -xvf vitis-ai-runtime-1.4.0.pynq.tar.gz && '
+              'cd vitis-ai-runtime-1.4.0 && '
+              'apt-get install -y ./*.deb && '
               'cd ../ && '
-              'rm -rf *.tar.gz aarch64 armv7l && '
               'sed -i "s/media\/sd-mmcblk0p1/usr\/lib/g" '
-              '/etc/vart.conf'.format(pkg_path, edge))
+              '/etc/vart.conf')
 
 
 # resolve overlay files by moving the cached copy
@@ -133,14 +83,13 @@ class BuildExtension(build_ext):
 
     This will first install VART package targeting the current board.
     Also, a couple of link files will be resolved at the end so users
-    have the correct overlay files in the `overlays` folder.
+    have the correct overlay files.
 
     """
     def run(self):
-        pkg_path = os.path.join(module_name, get_platform())
-        install_vart_pkg(pkg_path, platform.processor())
+        install_vart_pkg()
         build_ext.run(self)
-        overlay_path = os.path.join(self.build_lib, module_name, 'overlays')
+        overlay_path = os.path.join(self.build_lib, module_name)
         resolve_overlay_d(overlay_path)
 
 
@@ -149,11 +98,8 @@ with open("README.md", encoding='utf-8') as fh:
     readme_lines = fh.readlines()[2:7]
 long_description = (''.join(readme_lines))
 
-
-extend_package(os.path.join(module_name, 'overlays'))
-for arch in ['edge']:
-    extend_package(os.path.join(module_name, arch))
-
+extend_package(os.path.join(module_name, 'notebooks'))
+extend_package(module_name)
 
 setup(
     name=module_name,
@@ -169,17 +115,17 @@ setup(
     package_data={
         "": data_files,
     },
-    python_requires=">=3.6.0",
+    python_requires=">=3.8.0",
     install_requires=[
-        "pynq>=2.6.0",
+        "pynq>=2.7.0",
         "pybind11",
         "CppHeaderParser",
         "mnist"
     ],
     entry_points={
         "pynq.notebooks": [
-            "pynq-dpu = {}.{}.notebooks".format(
-                module_name, get_platform())
+            "pynq-dpu = {}.notebooks".format(
+                module_name)
         ]
     },
     cmdclass={"build_py": build_py,
