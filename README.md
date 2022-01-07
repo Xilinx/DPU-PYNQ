@@ -10,7 +10,7 @@ In this repository, we currently support the following boards:
 
 * Ultra96
 * ZCU104
-* KV260 
+* KV260 (coming soon)
 
 Other Zynq Ultrascale+ boards may be supported with few adjustments.
 This repository supports Vitis AI 1.4.0.
@@ -19,18 +19,10 @@ This repository supports Vitis AI 1.4.0.
 
 ### 1. Install
 
-**For the KV260 only:** If you are running DPU-PYNQ on the KV260 you will first need to uninstall 
-the previous version of vitis-ai-runtime. The setup script will install
-VART 1.4.0 automatically.
-
-```
-apt remove --purge vitis-ai-runtime
-```
-
 To install the pynq-dpu on your board, simply run:
 
 ```shell
-pip3 install pynq-dpu
+pip3 install pynq-dpu --no-build-isolation
 ```
 
 Then go to your jupyter notebook home folder and fetch the notebooks:
