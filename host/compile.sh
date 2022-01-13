@@ -60,8 +60,8 @@ unzip -o ${MODEL_ZIP}
 # pytorch model naming convention changes, so doing a wildflag
 if [ $FRAMEWORK = 'cf' ]; then
 	vai_c_caffe \
-		--prototxt ${MODEL_UNZIP}/fix/deploy.prototxt \
-		--caffemodel ${MODEL_UNZIP}/fix/deploy.caffemodel \
+		--prototxt ${MODEL_UNZIP}/quantized/deploy.prototxt \
+		--caffemodel ${MODEL_UNZIP}/quantized/deploy.caffemodel \
 		--arch /opt/vitis_ai/compiler/arch/DPUCZDX8G/${BOARD}/arch.json \
 		--output_dir . \
 		--net_name ${MODEL}
