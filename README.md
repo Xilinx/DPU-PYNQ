@@ -10,7 +10,7 @@ In this repository, we currently support the following boards:
 
 * Ultra96
 * ZCU104
-* KV260 (coming soon)
+* KV260
 
 Other Zynq Ultrascale+ boards may be supported with few adjustments.
 This repository supports Vitis AI 1.4.0.
