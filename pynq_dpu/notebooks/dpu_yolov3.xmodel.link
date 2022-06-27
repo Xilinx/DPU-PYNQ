@@ -3,7 +3,7 @@
         "url": "https://github.com/haipnh/DPU-PYNQ/raw/1b7cd7dd770e3a80afede49a913ace77f3b6952c/public/yolov3_voc_tf.xmodel",
         "md5sum": "d08a2a643ae03b30245061ad04234636"
     },
-    "KV260": {
+	"KV260": {
         "url": "https://github.com/haipnh/DPU-PYNQ/raw/1b7cd7dd770e3a80afede49a913ace77f3b6952c/public/yolov3_voc_tf.xmodel",
         "md5sum": "d08a2a643ae03b30245061ad04234636"
     }
