@@ -25,12 +25,16 @@ To install the pynq-dpu on your board, simply run:
 pip3 install pynq-dpu --no-build-isolation
 ```
 
+On Ultra96 and ZCU104, You must login as `root` (e.g., `sudo su`).
 Then go to your jupyter notebook home folder and fetch the notebooks:
 
 ```shell
+. /etc/profile.d/xrt_setup.sh
+. /etc/profile.d/pynq_venv.sh
 cd $PYNQ_JUPYTER_NOTEBOOKS
 pynq get-notebooks pynq-dpu -p .
 ```
+(if logged as root change back the permission as `sudo chown -R xilinx:xilinx pynq-dpu`)
 
 This will make sure the desired notebooks shows up in your jupyter notebook 
 folder.
