@@ -19,7 +19,7 @@ This repository supports Vitis AI 1.4.0.
 
 ### 1. Install
 
-To install the pynq-dpu on your board, simply run:
+To install the pynq-dpu on your board, simply run in the jupyter notebooks terminal:
 
 ```shell
 pip3 install pynq-dpu --no-build-isolation
@@ -34,6 +34,21 @@ pynq get-notebooks pynq-dpu -p .
 
 This will make sure the desired notebooks shows up in your jupyter notebook 
 folder.
+
+### 1b. [Optional] Install from ssh
+
+Connect via ssh (e.g., `ssh xilinx@192.168.3.1` on the Ultra96).
+
+On Ultra96 and ZCU104, login as `root` (e.g., `sudo su`).
+
+```shell
+pip3 install pynq-dpu --no-build-isolation
+. /etc/profile.d/xrt_setup.sh
+. /etc/profile.d/pynq_venv.sh
+cd $PYNQ_JUPYTER_NOTEBOOKS
+pynq get-notebooks pynq-dpu -p .
+chown -R xilinx:xilinx pynq-dpu
+```
 
 ### 2. Run
 
