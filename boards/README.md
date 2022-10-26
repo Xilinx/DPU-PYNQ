@@ -1,47 +1,25 @@
 # DPU Hardware Design
 
-Make sure you have cloned this repository onto your host machine. We will
-leverage the DPU IP officially released in the Vitis AI repository, so we
-need to populate the submodule in DPU-PYNQ repository.
+Make sure you have cloned this repository onto your host machine. To build the DPU overlays we will
+leverage the DPU IP from the official Vitis AI [DPUCZDX8G TRD flow](https://docs.xilinx.com/r/en-US/pg338-dpu).
 
-If you have not cloned the repo yet:
-
-```bash
-git clone --recursive --shallow-submodules https://github.com/Xilinx/DPU-PYNQ.git
-cd DPU-PYNQ/boards
-```
-
-If you have already cloned the repository, make sure submodules are loaded:
-
-```bash
-cd DPU-PYNQ
-git submodule init
-git submodule update
-```
-
-## Officially Supported Boards
-
-Currently we support the following boards:
-
-* Ultra96
-* ZCU104
-* KV260
-
-The DPU configurations for ZCU104 and KV260 are identical, however the vivado
-designs can differ between boards. Some helpful examples for the KV260 can be
-found on the KV260-Vitis [github repository](https://github.com/Xilinx/kv260-vitis/tree/release-2021.1).
-And for the ZCU104 configurations exist on the Vitis AI repository [Vitis TRD flow](https://github.com/Xilinx/Vitis-AI/tree/v1.4/dsa/DPU-TRD/prj/Vitis)
-The Ultra96 configuration is taken directly from the Avnet Vitis [github repository](https://github.com/Avnet/vitis/tree/2021.1/app/dpu/u96v2_sbc_base).
+## Rebuilding Designs
 
 To build the DPU hardware design, we first need to make sure Vitis and XRT 
 have been installed and their settings are sourced properly.
 
 ```shell
-source <vitis-install-path>/Vitis/2021.1/settings64.sh
+source <vitis-install-path>/Vitis/2022.1/settings64.sh
 source <xrt-install-path>/xilinx/xrt/setup.sh
 ```
 
-Then build the hardware design.
+Note that most boards in this repository grab board files from the XilinxBoardStore. Some community boards might get the board files from a different source. Make sure this is cloned into the DPU-PYNQ/boards folder before building any of the designs.
+
+```shell
+git clone https://github.com/Xilinx/XilinxBoardStore -b 2022.1
+```
+
+Then build the hardware design. Please note that in this case the `BOARD` variable should match the folder names in the DPU-PYNQ/boards directory.
 
 ```shell
 make BOARD=<Board>
@@ -57,7 +35,9 @@ for the specified board. The make process generates in `<Board>`:
 ## Other Zynq Ultrascale Boards
 
 You can create your own folder for your board; make sure you have 
-`dpu_conf.vh` and `prj_config` in that folder. 
+`dpu_conf.vh` and `prj_config` in that folder, and a platform file 
+`platform.xsa` or alternatively `gen_platform.tcl` script that would
+generate a platform with that name. 
 After sourcing Vitis and XRT settings, you can run:
 
 ```shell
@@ -90,8 +70,8 @@ board folder. The adjustable settings of the DPU IP include:
 * `LOWPOWER_ENABLE`
 * `DEVICE Configuration`
 
-For more information regarding the DPU IP, you can refer to the [official Vitis
-AI DPU guide](https://www.xilinx.com/html_docs/vitis_ai/1_4/fke1606771875742.html).
+For more information regarding the DPU IP, you can refer to the official [Vitis
+AI DPU IP guide](https://docs.xilinx.com/r/en-US/pg338-dpu).
 
 ----
 ----
