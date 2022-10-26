@@ -10,63 +10,33 @@ import platform
 import re
 import warnings
 
-from pynq.utils import build_py
+from pynqutils.setup_utils import build_py, extend_package
 
 
 # global variables
 module_name = "pynq_dpu"
 data_files = []
-
-
-# parse version number
-def find_version(file_path):
-    with open(file_path, 'r') as fp:
-        version_file = fp.read()
-        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",  
-                                  version_file, re.M)
-    if version_match:
-        return version_match.group(1)
-    raise NameError("Version string must be defined in {}.".format(file_path))
-
-
-# extend package
-def extend_package(path):
-    if os.path.isdir(path):
-        data_files.extend(
-            [os.path.join("..", root, f)
-             for root, _, files in os.walk(path) for f in files]
-        )
-    elif os.path.isfile(path):
-        data_files.append(os.path.join("..", path))
         
 # Enforce platform-dependent distribution
 class CustomDistribution(Distribution):
     def has_ext_modules(self):
         return True
 
-# get current board
-def get_board():
-    board_variable = os.getenv('BOARD')
-    if board_variable not in ['Ultra96', 'ZCU104', 'KV260']:
-        warnings.warn(UserWarning, "Board is not officially supported.")
-    return board_variable.lower().replace('-', '')
-
-
-# install vart package
 def install_vart_pkg():
-    os.system('wget -O vitis-ai-runtime-1.4.0.pynq.tar.gz '
-              '"https://www.xilinx.com/bin/public/openDownload?filename='
-              'vitis-ai-runtime-1.4.0.pynq.tar.gz" && '
-              'tar -xvf vitis-ai-runtime-1.4.0.pynq.tar.gz && '
-              'cd vitis-ai-runtime-1.4.0 && '
-              'apt-get install -y ./*.deb && '
-              'cd ../ && '
-              'sed -i "s/media\/sd-mmcblk0p1/usr\/lib/g" '
-              '/etc/vart.conf')
+   """ Install VART packages """
+   os.system('mkdir vitis-ai-runtime-2.5.0 &&'
+             'cd vitis-ai-runtime-2.5.0 &&'
+             'wget -O vitis-ai-runtime-2.5.0.pynq.tar.gz '
+             '"https://www.xilinx.com/bin/public/openDownload?filename='
+             'vitis-ai-runtime-2.5.0.pynq.tar.gz" && '
+             'tar -xvf vitis-ai-runtime-2.5.0.pynq.tar.gz && '
+             'apt-get install -y ./*.deb && '
+             'cd ../ && '
+             'sed -i "s/media\/sd-mmcblk0p1/usr\/lib/g" '
+             '/etc/vart.conf')
 
-
-# resolve overlay files by moving the cached copy
 def resolve_overlay_d(path):
+    """ Resolve overlay files by moving the cached copy """
     subfolders = [os.path.abspath(f.path) for f in os.scandir(path)
                   if f.is_dir() and f.path.endswith('.d')]
     for f in subfolders:
@@ -91,33 +61,33 @@ class BuildExtension(build_ext):
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name)
         resolve_overlay_d(overlay_path)
+        test_model_path = os.path.join(self.build_lib, module_name, 'tests', 'models')
+        resolve_overlay_d(test_model_path)
 
-
-pkg_version = find_version('{}/__init__.py'.format(module_name))
 with open("README.md", encoding='utf-8') as fh:
     readme_lines = fh.readlines()[2:7]
 long_description = (''.join(readme_lines))
 
-extend_package(os.path.join(module_name, 'notebooks'))
-extend_package(module_name)
+extend_package(os.path.join(module_name, 'notebooks'), data_files)
+extend_package(os.path.join(module_name, 'tests'), data_files)
+extend_package(module_name, data_files)
 
 setup(
     name=module_name,
-    version=pkg_version,
+    version=2.5,
     description="PYNQ DPU Overlay using Vitis AI",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Xilinx PYNQ Development Team',
-    author_email="pynq_support@xilinx.com",
     url='https://github.com/Xilinx/DPU-PYNQ.git',
     license='Apache License 2.0',
     packages=find_packages(),
     package_data={
         "": data_files,
     },
-    python_requires=">=3.8.0",
+    python_requires=">=3.10.0",
     install_requires=[
-        "pynq>=2.7.0",
+        "pynq>=3.0.0",
         "pybind11",
         "CppHeaderParser",
         "mnist"

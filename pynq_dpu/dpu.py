@@ -25,10 +25,7 @@ MODULE_PATH = os.path.dirname(os.path.realpath(__file__))
 OVERLAY_PATH = MODULE_PATH
 XCL_DST_PATH = "/usr/lib"
 
-# If the vart.conf file is not set to correctly reflect the firmware you may experience 
-# board crashes. Other DPU applications may overwrite this directory to point to a custom 
-# firmware location. When working on DPU applications outside of pynq_dpu, make sure you
-# set vart.conf to the correct location for your application.
+
 def check_vart_config():
     """ VART config check
     
@@ -36,6 +33,10 @@ def check_vart_config():
     of this package gets installed in /usr/lib/dpu.xclbin. If the config is set to a different
     firmware location than expected, it gets overwritten to the default of this package.
     
+    If the vart.conf file is not set to correctly reflect the firmware you may experience 
+    board crashes. Other DPU applications may overwrite this directory to point to a custom 
+    firmware location. When working on DPU applications outside of pynq_dpu, make sure you
+    set vart.conf to the correct location for your application.
     """
     with open('/etc/vart.conf') as txt:
         # Read vart.conf contents
@@ -49,6 +50,11 @@ def check_vart_config():
         txt.write('firmware: /usr/lib/dpu.xclbin')
 
 def get_child_subgraph_dpu(graph: "Graph"):
+    """ Helper function for load_model
+    
+    Parses the given xmodel subgraphs and returns the subgraph specific to the 
+    DPU accelerator device.
+    """
     assert graph is not None, \
         "Input Graph object should not be None."
     root_subgraph = graph.get_root_subgraph()
