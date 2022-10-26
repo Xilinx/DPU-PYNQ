@@ -1,38 +1,56 @@
+/*
+* Copyright 2019 Xilinx Inc.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 //Setting the arch of DPU, For more details, Please read the PG338 
 
 
 /*====== Architecture Options ======*/
 // |------------------------------------------------------|
 // | Support 8 DPU size
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | `define B512               
 // +------------------------------------------------------+
-// | `deifne B800                 
+// | `define B800                 
 // +------------------------------------------------------+
-// | `deifne B1024                 
+// | `define B1024                 
 // +------------------------------------------------------+
-// | `deifne B1152                 
+// | `define B1152                 
 // +------------------------------------------------------+
-// | `deifne B1600                 
+// | `define B1600                 
 // +------------------------------------------------------+
-// | `deifne B2304                 
+// | `define B2304                 
 // +------------------------------------------------------+
-// | `deifne B3136                 
+// | `define B3136                 
 // +------------------------------------------------------+
-// | `deifne B4096                 
+// | `define B4096                 
 // |------------------------------------------------------|
 
-`define B4096 
+`define B1600 
 
 // |------------------------------------------------------|
-// |If the FPGA has Uram. You can define URAM_EN parameter               
+// | If the FPGA has Uram. You can define URAM_EN parameter               
+// | if change, Don't need update model
 // +------------------------------------------------------+
 // | for zcu104 : `define URAM_ENABLE               
 // +------------------------------------------------------+
 // | for zcu102 : `define URAM_DISABLE                 
 // |------------------------------------------------------|
 
-`define URAM_ENABLE 
+`define URAM_DISABLE 
 
 //config URAM
 `ifdef URAM_ENABLE
@@ -44,7 +62,6 @@
     `define def_UBANK_WGT_N          0
     `define def_UBANK_BIAS           0
 `endif
-
 
 // |------------------------------------------------------|
 // | You can use DRAM if FPGA has extra LUTs               
@@ -68,9 +85,9 @@
     `define def_DBANK_BIAS           0
 `endif
 
-
 // |------------------------------------------------------|
 // | RAM Usage Configuration              
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | RAM Usage High : `define RAM_USAGE_HIGH               
 // +------------------------------------------------------+
@@ -81,6 +98,7 @@
 
 // |------------------------------------------------------|
 // | Channel Augmentation Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
 // | Enable  : `define CHANNEL_AUGMENTATION_ENABLE              
 // +------------------------------------------------------+
@@ -90,55 +108,55 @@
 `define CHANNEL_AUGMENTATION_ENABLE
 
 // |------------------------------------------------------|
-// | DepthWiseConv Configuration
-// +------------------------------------------------------+
-// | Enable  : `define DWCV_ENABLE              
-// +------------------------------------------------------+
-// | Disable : `define DWCV_DISABLE               
-// |------------------------------------------------------|
-
-`define DWCV_ENABLE
-
-// |------------------------------------------------------|
-// | Pool Average Configuration
-// +------------------------------------------------------+
-// | Enable  : `define POOL_AVG_ENABLE              
-// +------------------------------------------------------+
-// | Disable : `define POOL_AVG_DISABLE                
-// |------------------------------------------------------|
-
-`define POOL_AVG_ENABLE
-
-// |------------------------------------------------------|
-// | support multiplication of two feature maps
+// | ALU parallel Configuration
 // | It relates to model. if change, must update model
 // +------------------------------------------------------+
-// | Enable  : `define ELEW_MULT_ENABLE           
+// | setting 0  : `define ALU_PARALLEL_DEFAULT              
 // +------------------------------------------------------+
-// | Disable : `define ELEW_MULT_DISABLE               
+// | setting 1  : `define ALU_PARALLEL_1                
+// |------------------------------------------------------|
+// | setting 2  : `define ALU_PARALLEL_2                
+// |------------------------------------------------------|
+// | setting 3  : `define ALU_PARALLEL_4                
+// |------------------------------------------------------|
+// | setting 4  : `define ALU_PARALLEL_8                
 // |------------------------------------------------------|
 
-`define ELEW_MULT_DISABLE
+`define ALU_PARALLEL_DEFAULT 
 
-// |------------------------------------------------------|
-// | RELU Type Configuration
 // +------------------------------------------------------+
-// | `define RELU_RELU6
+// | CONV RELU Type Configuration
+// | It relates to model. if change, must update model
 // +------------------------------------------------------+
-// | `define RELU_LEAKYRELU_RELU6
+// | `define CONV_RELU_RELU6
+// +------------------------------------------------------+
+// | `define CONV_RELU_LEAKYRELU_RELU6
 // |------------------------------------------------------|
 
-`define RELU_LEAKYRELU_RELU6
+`define CONV_RELU_LEAKYRELU_RELU6
+
+// +------------------------------------------------------+
+// | ALU RELU Type Configuration
+// | It relates to model. if change, must update model
+// +------------------------------------------------------+
+// | `define ALU_RELU_RELU6
+// +------------------------------------------------------+
+// | `define ALU_RELU_LEAKYRELU_RELU6
+// |------------------------------------------------------|
+
+`define ALU_RELU_RELU6
 
 // |------------------------------------------------------|
-// | DSP48 Usage Configuration
+// | DSP48 Usage Configuration  
+// | Use dsp replace of lut in conv operate 
+// | if change, Don't need update model
 // +------------------------------------------------------+
 // | `define DSP48_USAGE_HIGH              
 // +------------------------------------------------------+
 // | `define DSP48_USAGE_LOW                
 // |------------------------------------------------------|
 
-`define DSP48_USAGE_HIGH  
+`define DSP48_USAGE_HIGH 
 
 // |------------------------------------------------------|
 // | Power Configuration
@@ -161,6 +179,8 @@
 // |------------------------------------------------------|
 
 `define MPSOC
+  
+
 
 
  

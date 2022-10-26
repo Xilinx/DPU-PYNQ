@@ -2,8 +2,8 @@
 
 set -e
 
-if [[ -z $(vitis -version | fgrep 2021.1) ]]; then
-        echo "Error: Please source Vitis 2021.1 settings."
+if [[ -z $(vitis -version | fgrep 2022.1) ]]; then
+        echo "Error: Please source Vitis 2022.1 settings."
         exit 1
 fi
 
