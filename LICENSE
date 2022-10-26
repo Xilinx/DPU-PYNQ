@@ -204,7 +204,7 @@ All rights reserved.
    See the License for the specific language governing permissions and
    limitations under the License.
    
-Components: target_factory 1.4.0
+Components: target_factory 2.5.0
 
 
 # Copyright 2019 Xilinx Inc.
@@ -225,7 +225,7 @@ Components: target_factory 1.4.0
 Copyright 2019 Xilinx Inc
 
 
-Components: vart 1.4.0
+Components: vart 2.5.0
 
 
 /* Copyright 2019 Xilinx Inc. 
@@ -276,7 +276,7 @@ Copyright statement to Your modifications and
 Copyright (C) Xilinx .Ltd 2019
 
 
-Components: unilog 1.4.0
+Components: unilog 2.5.0
 
 
 /*
@@ -299,7 +299,7 @@ Components: unilog 1.4.0
 Copyright 2019 Xilinx Inc
 
 
-Components: xir 1.4.0
+Components: xir 2.5.0
 
 
 /*
@@ -354,12 +354,48 @@ Copyright (c) 2014 2015 2016 2017 Jarryd Beck
 
 
 Components: 
-pynqdpu.dpu.kv260.1.4.0.bit
-pynqdpu.dpu.kv260.1.4.0.xclbin
-pynqdpu.dpu.ultra96.1.4.0.bit
-pynqdpu.dpu.ultra96.1.4.0.xclbin
-pynqdpu.dpu.zcu104.1.4.0.bit
-pynqdpu.dpu.zcu104.1.4.0.xclbin
+pynqdpu.dpu.gzu_5ev.2.5.0.bit
+pynqdpu.dpu.gzu_5ev.2.5.0.xclbin
+pynqdpu.dpu.kr260_som.2.5.0.bit
+pynqdpu.dpu.kr260_som.2.5.0.xclbin
+pynqdpu.dpu.kv260_som.2.5.0.bit
+pynqdpu.dpu.kv260_som.2.5.0.xclbin
+pynqdpu.dpu.pynqzu.2.5.0.bit
+pynqdpu.dpu.pynqzu.2.5.0.xclbin
+pynqdpu.dpu.rfsoc2x2.2.5.0.bit
+pynqdpu.dpu.rfsoc2x2.2.5.0.xclbin
+pynqdpu.dpu.rfsoc4x2.2.5.0.bit
+pynqdpu.dpu.rfsoc4x2.2.5.0.xclbin
+pynqdpu.dpu.TySOM-3A-ZU19EG.2.5.0.bit
+pynqdpu.dpu.TySOM-3A-ZU19EG.2.5.0.xclbin
+pynqdpu.dpu.TySOM-3-ZU7EV.2.5.0.bit
+pynqdpu.dpu.TySOM-3-ZU7EV.2.5.0.xclbin
+pynqdpu.dpu.Ultra96v1.2.5.0.bit
+pynqdpu.dpu.Ultra96v1.2.5.0.xclbin
+pynqdpu.dpu.Ultra96v2.2.5.0.bit
+pynqdpu.dpu.Ultra96v2.2.5.0.xclbin
+pynqdpu.dpu.ultrazed_eg_iocc_production.2.5.0.bit
+pynqdpu.dpu.ultrazed_eg_iocc_production.2.5.0.xclbin
+pynqdpu.dpu.vermeo_t1_mpsoc.2.5.0.bit
+pynqdpu.dpu.vermeo_t1_mpsoc.2.5.0.xclbin
+pynqdpu.dpu.vermeo_t1_rfsoc.2.5.0.bit
+pynqdpu.dpu.vermeo_t1_rfsoc.2.5.0.xclbin
+pynqdpu.dpu.zcu102.2.5.0.bit
+pynqdpu.dpu.zcu102.2.5.0.xclbin
+pynqdpu.dpu.zcu104.2.5.0.bit
+pynqdpu.dpu.zcu104.2.5.0.xclbin
+pynqdpu.dpu.zcu106.2.5.0.bit
+pynqdpu.dpu.zcu106.2.5.0.xclbin
+pynqdpu.dpu.zcu111.2.5.0.bit
+pynqdpu.dpu.zcu111.2.5.0.xclbin
+pynqdpu.dpu.zcu1285.2.5.0.bit
+pynqdpu.dpu.zcu1285.2.5.0.xclbin
+pynqdpu.dpu.zcu208.2.5.0.bit
+pynqdpu.dpu.zcu208.2.5.0.xclbin
+pynqdpu.dpu.zcu216.2.5.0.bit
+pynqdpu.dpu.zcu216.2.5.0.xclbin
+pynqdpu.dpu.ZUBoard_1CG.2.5.0.bit
+pynqdpu.dpu.ZUBoard_1CG.2.5.0.xclbin
 
 
 Copyright © 2021 Xilinx, Inc.
