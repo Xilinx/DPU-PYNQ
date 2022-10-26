@@ -35,7 +35,7 @@
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.rfsoc4x2.2.5.0.xclbin",
         "md5sum": "7a77660154fbf4110bc56b7112023027"
 	},
-    "Ultra96v2": {
+    "Ultra96": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.Ultra96v2.2.5.0.xclbin",
         "md5sum": "ce83aa9af74abb03bdb82469ae55a1fd"
 	},

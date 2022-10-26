@@ -1,5 +1,5 @@
 {
-    "Ultra96v2": {
+    "Ultra96": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.Ultra96v2.2.5.0.bit",
         "md5sum": "a87344010d37ba274406833b5f96abb0"
 	},
