@@ -11,7 +11,7 @@
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
         "md5sum": "25aba115c0a8fd1d232df7850aa154b1"
 	},
-        "Ultra96v2": {
+        "Ultra96": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
         "md5sum": "25aba115c0a8fd1d232df7850aa154b1"
 	},

@@ -39,7 +39,7 @@
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.zcu208.2.5.0.hwh",
         "md5sum": "690ead25f8e234c46a32df7a2e5d14a1"
 	},
-    "Ultra96v2": {
+    "Ultra96": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.dpu.Ultra96v2.2.5.0.hwh",
         "md5sum": "8aa0679a6692a1446039487d56aae97c"
 	},
