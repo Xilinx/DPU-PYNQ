@@ -1,3 +1,19 @@
+/*
+* Copyright 2019 Xilinx Inc.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 //Setting the arch of DPU, For more details, Please read the PG338 
 
 
@@ -23,8 +39,7 @@
 // | `define B4096                 
 // |------------------------------------------------------|
 
-//`define B4096 
-`define B2304
+`define B1600 
 
 // |------------------------------------------------------|
 // | If the FPGA has Uram. You can define URAM_EN parameter               
@@ -93,48 +108,43 @@
 `define CHANNEL_AUGMENTATION_ENABLE
 
 // |------------------------------------------------------|
-// | DepthWiseConv Configuration
+// | ALU parallel Configuration
 // | It relates to model. if change, must update model
 // +------------------------------------------------------+
-// | Enable  : `define DWCV_ENABLE              
+// | setting 0  : `define ALU_PARALLEL_DEFAULT              
 // +------------------------------------------------------+
-// | Disable : `define DWCV_DISABLE               
+// | setting 1  : `define ALU_PARALLEL_1                
+// |------------------------------------------------------|
+// | setting 2  : `define ALU_PARALLEL_2                
+// |------------------------------------------------------|
+// | setting 3  : `define ALU_PARALLEL_4                
+// |------------------------------------------------------|
+// | setting 4  : `define ALU_PARALLEL_8                
 // |------------------------------------------------------|
 
-`define DWCV_ENABLE
+`define ALU_PARALLEL_DEFAULT 
 
-// |------------------------------------------------------|
-// | Pool Average Configuration
+// +------------------------------------------------------+
+// | CONV RELU Type Configuration
 // | It relates to model. if change, must update model
 // +------------------------------------------------------+
-// | Enable  : `define POOL_AVG_ENABLE              
+// | `define CONV_RELU_RELU6
 // +------------------------------------------------------+
-// | Disable : `define POOL_AVG_DISABLE                
+// | `define CONV_RELU_LEAKYRELU_RELU6
 // |------------------------------------------------------|
 
-`define POOL_AVG_ENABLE
+`define CONV_RELU_LEAKYRELU_RELU6
 
-// |------------------------------------------------------|
-// | support multiplication of two feature maps
+// +------------------------------------------------------+
+// | ALU RELU Type Configuration
 // | It relates to model. if change, must update model
 // +------------------------------------------------------+
-// | Enable  : `define ELEW_MULT_ENABLE           
+// | `define ALU_RELU_RELU6
 // +------------------------------------------------------+
-// | Disable : `define ELEW_MULT_DISABLE               
+// | `define ALU_RELU_LEAKYRELU_RELU6
 // |------------------------------------------------------|
 
-`define ELEW_MULT_DISABLE
-
-// +------------------------------------------------------+
-// | RELU Type Configuration
-// | It relates to model. if change, must update model
-// +------------------------------------------------------+
-// | `define RELU_RELU6
-// +------------------------------------------------------+
-// | `define RELU_LEAKYRELU_RELU6
-// |------------------------------------------------------|
-
-`define RELU_LEAKYRELU_RELU6
+`define ALU_RELU_RELU6
 
 // |------------------------------------------------------|
 // | DSP48 Usage Configuration  
@@ -146,8 +156,7 @@
 // | `define DSP48_USAGE_LOW                
 // |------------------------------------------------------|
 
-//`define DSP48_USAGE_HIGH 
-`define DSP48_USAGE_LOW
+`define DSP48_USAGE_HIGH 
 
 // |------------------------------------------------------|
 // | Power Configuration
