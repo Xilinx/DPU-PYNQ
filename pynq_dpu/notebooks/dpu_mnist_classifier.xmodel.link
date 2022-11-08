@@ -17,7 +17,7 @@
 	},
         "ZUBoard_1CG": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B800.2.5.0.xmodel",
-        "md5sum": "657fc7316399a17411ad817d1879429d"
+        "md5sum": "91047178cc00444c13e977f8310696e9"
 	},
         "gzu_5ev": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
