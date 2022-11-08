@@ -74,7 +74,7 @@ extend_package(module_name, data_files)
 
 setup(
     name=module_name,
-    version=2.5,
+    version=2.5.1,
     description="PYNQ DPU Overlay using Vitis AI",
     long_description=long_description,
     long_description_content_type='text/markdown',
