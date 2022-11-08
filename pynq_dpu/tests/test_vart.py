@@ -19,7 +19,7 @@ def test_vart_version():
     assert output.returncode == 0
     
 def test_pynq_dpu_version():
-    assert pynq_dpu.__version__ == '2.5.0'
+    assert pynq_dpu.__version__ == '2.5.1'
 
 def test_dpu_overlay():
     try:
