@@ -130,8 +130,12 @@ class DpuOverlay(pynq.Overlay):
         The destination folder by default is `/usr/lib`.
 
         """
-        abs_xclbin = self.overlay_dirname + "/" + \
-            self.overlay_basename.rstrip(".bit") + ".xclbin"
+        if self.overlay_basename.endswith(".xclbin"):
+            abs_xclbin = self.overlay_dirname + "/" + \
+                self.overlay_basename
+        else:
+            abs_xclbin = self.overlay_dirname + "/" + \
+                self.overlay_basename.rstrip(".bit") + ".xclbin"
         if not os.path.isfile(abs_xclbin):
             raise ValueError(
                 "File {} does not exist.".format(abs_xclbin))
