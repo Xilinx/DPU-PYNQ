@@ -106,6 +106,19 @@ If you want to recompile the DPU models or train your own network, you can refer
 [instructions for DPU models](./host/README.md).
 
 
+## Example Notebooks
+
+The below table is a summary of information about the example notebooks included in this repository.
+
+| Filename | Task | Model | Dataset | Type | 
+|---       |---   | ---   | ---     | ---  | 
+| [dpu_resnet50.ipynb](pynq_dpu/notebooks/dpu_resnet50.ipynb) | Classification | ResNet-50 | ImageNet | Model Zoo |
+| [dpu_resnet50_pybind11.ipynb](pynq_dpu/notebooks/dpu_resnet50_pybind11.ipynb) | Classification | ResNet-50 | ImageNet  | Model Zoo |
+| [dpu_tf_inceptionv1.ipynb](pynq_dpu/notebooks/dpu_tf_inceptionv1.ipynb) | Classification | Inception V1 | ImageNet | Model Zoo |
+| [dpu_mnist_classifier.ipynb](pynq_dpu/notebooks/dpu_mnist_classifier.ipynb) | Classification | ENet | MNIST | User-Trained |
+| [dpu_yolov3.ipynb](pynq_dpu/notebooks/dpu_yolov3.ipynb) | Detection | YOLOv3  | VOC | Model Zoo |
+| [dpu_enet_cityscapes.ipynb](pynq_dpu/notebooks/dpu_enet_cityscapes.ipynb) | Segmentation | ENet | citiscapes | Model Zoo |
+
 ----
 ----
 
