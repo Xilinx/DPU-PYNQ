@@ -20,7 +20,7 @@ git clone https://github.com/Xilinx/DPU-PYNQ.git
 ### 2. Docker
 
 If you have not installed docker on your host machine, please refer to the
-[Vitis AI getting started page](https://github.com/Xilinx/Vitis-AI/tree/v2.5#Getting-Started)
+[Vitis AI Host Installation Instructions](https://xilinx.github.io/Vitis-AI/3.5/html/docs/install/install.html)
 to install docker.
 
 Once you have docker set up, go to the DPU-PYNQ/host folder and run the `prepare_docker.sh` script will download the necessary files from the Vitis AI github repository for running the docker image, including the `docker_run.sh` script. You only need to run the following command once.
@@ -29,6 +29,18 @@ Once you have docker set up, go to the DPU-PYNQ/host folder and run the `prepare
 cd DPU-PYNQ/host
 ./prepare_docker.sh
 ```
+
+There are a number of prebuilt Vitis AI dockers that you can use to compile your own models, the general form of the `docker_run.sh`` command will look like the following:
+
+```
+./docker_run.sh xilinx/vitis-ai-<pytorch|tensorflow2|tensorflow>-<cpu|rocm>:latest
+```
+
+For example if you want to run a docker with pytorch and rocm support for an AMD GPU, you will use
+```
+./docker_run.sh xilinx/vitis-ai-pytorch-rocm:latest
+```
+
 
 ### 3. (optional) `arch.json`
 
@@ -54,10 +66,12 @@ you must prepare your new `arch.json`.
 
 ## Build DPU Models from Vitis AI Model Zoo
 
+**Note**: Vitis AI model zoo for Zynq Ultrascale boards like the KV260 or ZCU104 are only available in the 3.0 release. The 3.5 tag of Vitis AI will not have models for Zynq Ultrascale boards, however these models should still be compatible with the 3.5 Vitis AI Runtime.
+
 The Vitis AI compilers are provided in the Vitis AI docker image. Make sure you ran the `prepare_docker.sh` script first, then run the following to enter the docker environment:
 
 ```shell
-./docker_run.sh xilinx/vitis-ai:2.5.0
+./docker_run.sh xilinx/vitis-ai-tensorflow2-cpu:latest
 ```
 
 The `docker_run.sh` will download a Vitis AI docker image after users accept
@@ -77,7 +91,7 @@ The helper compile.py script takes 3 parameters, you can get more information ab
  ./compile.py --help
 usage: compile.py [-h] [-n NAME] [-a ARCH] [-o OUTPUT_DIR]
 
-DPU-PYNQ helper script for downloading and compiling models from the Vitis AI modelzoo. For list of models see: https://github.com/Xilinx/Vitis-AI/tree/v2.5/model_zoo/model-list
+DPU-PYNQ helper script for downloading and compiling models from the Vitis AI modelzoo. For list of models see: https://github.com/Xilinx/Vitis-AI/tree/v3.0/model_zoo/model-list
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -110,11 +124,10 @@ users may even train their own machine learning models. We will show
 one example in `train_mnist_model.ipynb`, where a small convolutional neural network
 is trained on the MNIST hand-written digit dataset. 
 
-From inside the docker environment, activate tensorflow2 conda environment and the launch jupyter notebook.
-step-by-step.
+The notebook was written for a tensorflow2 environment, so we will be using the tensorflow2 docker image.
 
 ```shell
-conda activate vitis-ai-tensorflow2
+./docker_run.sh xilinx/vitis-ai-tensorflow2-cpu:latest
 jupyter notebook --ip=0.0.0.0 --port=8080
 ```
 
@@ -128,7 +141,7 @@ and [Vitis AI Tutorials](https://github.com/xilinx/vitis-ai-tutorials).
 
 * [Vitis AI Github](https://github.com/Xilinx/Vitis-AI)
 * [Vitis AI User Guide](https://docs.xilinx.com/r/en-US/ug1414-vitis-ai)
-* [Vitis AI Model Zoo](https://github.com/Xilinx/Vitis-AI/tree/v2.5/model_zoo)
+* [Vitis AI Model Zoo](https://github.com/Xilinx/Vitis-AI/tree/v3.0/model_zoo)
 
 Copyright (C) 2021 Xilinx, Inc
 

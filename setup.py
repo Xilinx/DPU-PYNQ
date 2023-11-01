@@ -24,12 +24,12 @@ class CustomDistribution(Distribution):
 
 def install_vart_pkg():
    """ Install VART packages """
-   os.system('mkdir vitis-ai-runtime-2.5.0 &&'
-             'cd vitis-ai-runtime-2.5.0 &&'
-             'wget -O vitis-ai-runtime-2.5.0.pynq.tar.gz '
+   os.system('mkdir vitis-ai-runtime-3.5.0 &&'
+             'cd vitis-ai-runtime-3.5.0 &&'
+             'wget -O vitis-ai-runtime-3.5.0.pynq.tar.gz '
              '"https://www.xilinx.com/bin/public/openDownload?filename='
-             'vitis-ai-runtime-2.5.0.pynq.tar.gz" && '
-             'tar -xvf vitis-ai-runtime-2.5.0.pynq.tar.gz && '
+             'vitis-ai-runtime-3.5.0.pynq.tar.gz" && '
+             'tar -xvf vitis-ai-runtime-3.5.0.pynq.tar.gz && '
              'apt-get install -y ./*.deb && '
              'cd ../ && '
              'sed -i "s/media\/sd-mmcblk0p1/usr\/lib/g" '
@@ -57,7 +57,7 @@ class BuildExtension(build_ext):
 
     """
     def run(self):
-        install_vart_pkg()
+        # install_vart_pkg()
         build_ext.run(self)
         overlay_path = os.path.join(self.build_lib, module_name)
         resolve_overlay_d(overlay_path)
@@ -74,7 +74,7 @@ extend_package(module_name, data_files)
 
 setup(
     name=module_name,
-    version="2.5.1",
+    version="3.5.0",
     description="PYNQ DPU Overlay using Vitis AI",
     long_description=long_description,
     long_description_content_type='text/markdown',

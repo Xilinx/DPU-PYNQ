@@ -2,7 +2,7 @@
 
 This repository holds the PYNQ DPU overlay. Specifically, the Vitis AI DPU is included in the accompanying bitstreams with example training and inference notebooks ready to run on PYNQ enabled platforms. Steps are also included to rebuild the designs in Vitis and can be ported onto PYNQ-enabled Zynq Ultrascale+ boards. 
 
-This release of DPU-PYNQ supports PYNQ 3.0 and Vitis AI 2.5.0.
+This release of DPU-PYNQ supports PYNQ 3.0 and Vitis AI 3.5.0.
 
 ## Board Support
 

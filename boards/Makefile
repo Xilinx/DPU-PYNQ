@@ -28,8 +28,9 @@ check_env :
 # The DPU IP HDL sources for MPSoC live in the DPU TRD flow, hosted on opendownloads
 # more info: https://docs.xilinx.com/r/en-US/pg338-dpu/Vitis-DPU-TRD-Flow
 DPU_TRD:
-	wget -O DPUCZDX8G.tar.gz https://www.xilinx.com/bin/public/openDownload?filename=DPUCZDX8G.tar.gz && \
+	wget -O DPUCZDX8G.tar.gz https://www.xilinx.com/bin/public/openDownload?filename=DPUCZDX8G_VAI_v3.0.tar.gz && \
         tar xf DPUCZDX8G.tar.gz && \
+	mv DPUCZDX8G_VAI_v3.0 DPUCZDX8G && \
 	rm DPUCZDX8G.tar.gz
 	
 

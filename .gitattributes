@@ -35,3 +35,4 @@
 *.a binary
 *.bsp binary
 *.so binary
+*.xmodel binary

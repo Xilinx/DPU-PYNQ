@@ -4,4 +4,4 @@
 
 from .dpu import DpuOverlay
 
-__version__ = '2.5.1'
+__version__ = '3.5.0'

@@ -147,6 +147,17 @@
 `define ALU_RELU_RELU6
 
 // |------------------------------------------------------|
+// | argmax or max Configuration
+// | It relates to model. if change, must update model
+// +------------------------------------------------------+
+// | enable  : `define SAVE_ARGMAX_ENABLE                 
+// +------------------------------------------------------+
+// | disable : `define SAVE_ARGMAX_DISABLE                 
+// |------------------------------------------------------|
+
+`define SAVE_ARGMAX_ENABLE                
+ 
+// |------------------------------------------------------|
 // | DSP48 Usage Configuration  
 // | Use dsp replace of lut in conv operate 
 // | if change, Don't need update model
