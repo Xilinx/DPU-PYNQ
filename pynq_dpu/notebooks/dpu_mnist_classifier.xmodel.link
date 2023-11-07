@@ -1,0 +1,86 @@
+{
+        "TySOM-3-ZU7EV": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "TySOM-3A-ZU19EG": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "Ultra96v1": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
+        "md5sum": "db67471bdaaf03311aea9a195a8132ff"
+	},
+        "Ultra96": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
+        "md5sum": "db67471bdaaf03311aea9a195a8132ff"
+	},
+        "ZUBoard_1CG": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B800.2.5.0.xmodel",
+        "md5sum": "91047178cc00444c13e977f8310696e9"
+	},
+        "gzu_5ev": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "KR260": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "0ad75b008da5bf13dc0ae9da5c03a86f"
+	},
+        "KV260": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "0ad75b008da5bf13dc0ae9da5c03a86f"
+	},
+        "Pynq-ZU": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "RFSoC2x2": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "RFSoC4x2": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ultrazed_eg_iocc_production": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "vermeo_t1_mpsoc": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "vermeo_t1_rfsoc": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU102": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU104": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU106": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU111": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU1285": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU208": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	},
+        "ZCU216": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_mnist_classifier.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "de750ff76bd50ee0ad834f4c6741c3fe"
+	}
+}

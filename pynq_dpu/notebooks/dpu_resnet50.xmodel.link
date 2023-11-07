@@ -1,0 +1,86 @@
+{
+        "TySOM-3-ZU7EV": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "TySOM-3A-ZU19EG": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "Ultra96v1": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
+        "md5sum": "25aba115c0a8fd1d232df7850aa154b1"
+	},
+        "Ultra96": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B1600.2.5.0.xmodel",
+        "md5sum": "25aba115c0a8fd1d232df7850aa154b1"
+	},
+        "ZUBoard_1CG": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B800.2.5.0.xmodel",
+        "md5sum": "58b2002aed6cc53eaa2a81f71345a25e"
+	},
+        "gzu_5ev": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "KR260": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "b97ad0776c79ae4d9e5a99a3b99233dd"
+	},
+        "KV260": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "b97ad0776c79ae4d9e5a99a3b99233dd"
+	},
+        "Pynq-ZU": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "RFSoC2x2": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "RFSoC4x2": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ultrazed_eg_iocc_production": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "vermeo_t1_mpsoc": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "vermeo_t1_rfsoc": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU102": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU104": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU106": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU111": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU1285": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU208": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	},
+        "ZCU216": {
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
+        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+	}
+}

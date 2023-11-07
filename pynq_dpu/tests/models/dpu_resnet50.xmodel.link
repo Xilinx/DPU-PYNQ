@@ -24,12 +24,12 @@
         "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
 	},
         "KR260": {
-        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
-        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "b97ad0776c79ae4d9e5a99a3b99233dd"
 	},
         "KV260": {
-        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
-        "md5sum": "e6c2d25385ad2897c92470f9a8feff52"
+        "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.3.5.0.xmodel",
+        "md5sum": "b97ad0776c79ae4d9e5a99a3b99233dd"
 	},
         "Pynq-ZU": {
         "url": "https://www.xilinx.com/bin/public/openDownload?filename=pynqdpu.tf2_resnet50.DPUCZDX8G_ISA1_B4096.2.5.0.xmodel",
