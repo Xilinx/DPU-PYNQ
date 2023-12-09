@@ -46,8 +46,15 @@ def check_vart_config():
         if '/usr/lib/dpu.xclbin' not in previous_firmware:
             print("/etc/vart.conf file was modified, replacing contents '{}' with '{}'.".format(previous_firmware.strip('\n').split(' ')[1], '/usr/lib/dpu.xclbin'))
 
+    write_config("dpu.xclbin")
+
+def write_config(xclbin_name):
+    """ Helper function to overwrite VART config file
+
+    Overwrites the /etc/vart.conf file with the firmware location of a given xclbin.
+    """
     with open('/etc/vart.conf', 'w') as txt:
-        txt.write('firmware: /usr/lib/dpu.xclbin')
+        txt.write(f'firmware: /usr/lib/{xclbin_name}')
 
 def get_child_subgraph_dpu(graph: "Graph"):
     """ Helper function for load_model
@@ -141,6 +148,8 @@ class DpuOverlay(pynq.Overlay):
                 "Folder {} does not exist.".format(XCL_DST_PATH))
         _ = subprocess.check_output(["cp", "-f",
                                      abs_xclbin, XCL_DST_PATH])
+
+        write_config(self.overlay_basename.rstrip(".bit") + ".xclbin")
 
     def load_model(self, model):
         """Load DPU models for VART.
