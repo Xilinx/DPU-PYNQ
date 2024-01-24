@@ -2,7 +2,7 @@
 
 This repository holds the PYNQ DPU overlay. Specifically, the Vitis AI DPU is included in the accompanying bitstreams with example training and inference notebooks ready to run on PYNQ enabled platforms. Steps are also included to rebuild the designs in Vitis and can be ported onto PYNQ-enabled Zynq Ultrascale+ boards. 
 
-This release of DPU-PYNQ supports PYNQ 3.0 and Vitis AI 2.5.0.
+This release of DPU-PYNQ supports PYNQ 3.0 and Vitis AI 3.5.0.
 
 ## Board Support
 
@@ -42,7 +42,7 @@ To install pynq-dpu on your PYNQ-enabled board, in the Jupyter Lab terminal, sim
 
 ```shell
 https://github.com/marcvhoof/DPU-PYNQ -b design_contest_3.5
-pip3 install pynq-dpu --no-build-isolation
+pip3 install . --no-build-isolation
 ```
 
 Then go to your jupyter notebook home folder and fetch the notebooks:
