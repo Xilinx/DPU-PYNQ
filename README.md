@@ -43,6 +43,16 @@ To install pynq-dpu on your PYNQ-enabled board, in the Jupyter Lab terminal, sim
 ```shell
 https://github.com/marcvhoof/DPU-PYNQ -b design_contest_3.5
 pip3 install . --no-build-isolation
+wget -O vai3.5_kr260.zip https://www.xilinx.com/bin/public/openDownload?filename=vai3.5_kr260.zip
+unzip vai3.5_kr260.zip
+rm unzip vai3.5_kr260.zip
+cd vai3.5_kr260.zip
+cd target/runtime_deb
+sudo bash setup.sh
+cd ../
+tar -xvzf lack_lib.tar.gz
+sudo cp -r lack_lib/* /usr/lib
+export PYTHONPATH=/usr/lib/python3.10/site-packages:$PYTHONPATH
 ```
 
 Then go to your jupyter notebook home folder and fetch the notebooks:
