@@ -41,6 +41,7 @@ DPU overlays for most boards have been built using the B4096 architecture with 1
 To install pynq-dpu on your PYNQ-enabled board, in the Jupyter Lab terminal, simply run:
 
 ```shell
+https://github.com/marcvhoof/DPU-PYNQ -b design_contest_3.5
 pip3 install pynq-dpu --no-build-isolation
 ```
 
