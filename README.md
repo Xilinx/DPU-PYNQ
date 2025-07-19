@@ -65,6 +65,7 @@ Make sure you login as `root` (e.g., `sudo su`) and source the pynq profile scri
 . /etc/profile.d/pynq_venv.sh
 pip3 install pynq-dpu --no-build-isolation
 ```
+**NOTE** On Kria KV260 running PYNQ version: 3.0.1. The /etc/profile.d/xrt_setup.sh is not installed
 
 ### 2. Run
 
